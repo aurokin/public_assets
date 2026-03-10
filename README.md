@@ -1,4 +1,4 @@
-# simc_guides
+# public_assets
 
 Static GitHub Pages guide for a decoded Devastation Evoker SimulationCraft APL.
 
@@ -11,11 +11,11 @@ Static GitHub Pages guide for a decoded Devastation Evoker SimulationCraft APL.
 
 ## Publish
 
-1. Create an empty GitHub repository named `simc_guides`.
+1. Create an empty GitHub repository named `public_assets`.
 2. Add the remote:
 
 ```bash
-git remote add origin git@github.com:<your-user>/simc_guides.git
+git remote add origin git@github.com:<your-user>/public_assets.git
 ```
 
 3. Push the `main` branch:
