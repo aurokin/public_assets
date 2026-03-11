@@ -39,7 +39,7 @@ body {
 .page-shell {
   width: min(1240px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 24px 0 40px;
+  padding: 32px 0 56px;
 }
 
 .page-header,
@@ -54,7 +54,7 @@ body {
 
 .page-header {
   display: block;
-  padding: 24px;
+  padding: 28px 30px;
 }
 
 .page-title {
@@ -81,19 +81,20 @@ body {
 .section-head p,
 .result-copy,
 .note-block p {
-  margin: 10px 0 0;
+  margin: 12px 0 0;
   color: var(--muted);
 }
 
 .summary-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 16px;
+  gap: 16px;
+  margin-top: 20px;
 }
 
 .summary-strip article {
-  padding: 14px 16px;
+  padding: 18px;
+  min-height: 86px;
   background: var(--surface-alt);
   border-left: 3px solid var(--accent);
 }
@@ -109,21 +110,21 @@ body {
 }
 
 .page-grid {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .content-column {
   display: grid;
-  gap: 16px;
+  gap: 20px;
   align-content: start;
 }
 
 .section-block {
-  padding: 20px;
+  padding: 24px;
 }
 
 .section-head {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .section-head h2,
@@ -135,10 +136,10 @@ body {
 .support-line {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 16px;
+  gap: 12px 18px;
   align-items: center;
-  margin-top: 12px;
-  padding: 10px 12px;
+  margin-top: 16px;
+  padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--surface-alt);
@@ -156,11 +157,11 @@ body {
 .tool-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 .input-panel {
-  padding: 16px;
+  padding: 20px;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--surface-alt);
@@ -169,7 +170,7 @@ body {
 .calculator-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .field {
@@ -187,7 +188,7 @@ body {
 
 .field input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 14px 14px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   background: #171b16;
@@ -202,7 +203,7 @@ body {
 }
 
 .result-card {
-  padding: 16px;
+  padding: 20px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
   background: var(--surface-alt);
@@ -243,7 +244,7 @@ body {
 }
 
 .result-main {
-  margin-top: 8px;
+  margin-top: 12px;
   padding-left: 6px;
 }
 
@@ -260,8 +261,8 @@ body {
 .result-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin: 16px 0 0;
+  gap: 16px;
+  margin: 18px 0 0;
   padding-left: 6px;
 }
 
@@ -280,14 +281,15 @@ body {
 }
 
 .preset-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
 }
 
 .preset {
-  padding: 8px 12px;
+  min-height: 40px;
+  padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
@@ -323,7 +325,7 @@ table {
 
 th,
 td {
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
@@ -354,7 +356,7 @@ tbody tr.is-match td:first-child {
 .playbook-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
 .playbook {
@@ -365,7 +367,7 @@ tbody tr.is-match td:first-child {
 }
 
 .playbook h2 {
-  padding: 16px 16px 12px;
+  padding: 18px 18px 14px;
   border-bottom: 1px solid var(--line);
   background: var(--steel);
 }
@@ -386,7 +388,7 @@ tbody tr.is-match td:first-child {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 16px;
-  padding: 12px 16px;
+  padding: 14px 18px;
   border-top: 1px solid var(--line);
 }
 
@@ -407,11 +409,11 @@ tbody tr.is-match td:first-child {
 .weave-grid {
   display: grid;
   grid-template-columns: 1.05fr 1.15fr 0.8fr;
-  gap: 14px;
+  gap: 18px;
 }
 
 .weave-card {
-  padding: 16px;
+  padding: 18px;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--surface-alt);
@@ -459,7 +461,7 @@ tbody tr.is-match td:first-child {
 }
 
 .notes-panel summary {
-  padding: 14px 16px;
+  padding: 16px 18px;
   cursor: pointer;
   font-weight: 700;
   list-style: none;
@@ -487,7 +489,7 @@ tbody tr.is-match td:first-child {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   gap: 20px;
-  padding: 16px;
+  padding: 18px;
 }
 
 .notes-grid h2 {
@@ -503,25 +505,29 @@ code {
 }
 
 @media (max-width: 1080px) {
-  .summary-strip,
   .tool-layout,
   .playbook-grid,
   .weave-grid,
   .notes-grid {
     grid-template-columns: 1fr;
   }
+
+  .summary-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
 }
 
 @media (max-width: 720px) {
   .page-shell {
     width: min(100% - 20px, 1240px);
-    padding-top: 18px;
-    padding-bottom: 28px;
+    padding-top: 20px;
+    padding-bottom: 32px;
   }
 
   .page-header,
   .section-block {
-    padding: 16px;
+    padding: 18px;
   }
 
   .calculator-grid,
@@ -531,7 +537,6 @@ code {
   }
 
   .preset-row {
-    display: grid;
     grid-template-columns: 1fr 1fr;
   }
 
