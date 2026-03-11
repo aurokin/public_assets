@@ -5,6 +5,9 @@ const breakpoints = [
     minExclusive: 2.34,
     maxInclusive: Infinity,
     band: "eWS above 2.34",
+    band29: "< 1.24 haste",
+    band30: "< 1.30 haste",
+    band31: "< 1.35 haste",
     summary: "This is the slow end of the map. Base SV lives here before larger haste effects show up."
   },
   {
@@ -13,6 +16,9 @@ const breakpoints = [
     minExclusive: 1.95,
     maxInclusive: 2.34,
     band: "eWS 1.95 to 2.34",
+    band29: "1.24 to 1.49 haste",
+    band30: "1.30 to 1.55 haste",
+    band31: "1.36 to 1.61 haste",
     summary: "This is the standard BM baseline zone and the usual answer for medium-slow ranged haste."
   },
   {
@@ -21,6 +27,9 @@ const breakpoints = [
     minExclusive: 1.63,
     maxInclusive: 1.95,
     band: "eWS 1.63 to 1.95",
+    band29: "1.49 to 1.78 haste",
+    band30: "1.55 to 1.84 haste",
+    band31: "1.61 to 1.91 haste",
     summary: "Hawk, DST, Bloodlust SV, and Rapid Fire SV often land here."
   },
   {
@@ -29,6 +38,9 @@ const breakpoints = [
     minExclusive: 1.32,
     maxInclusive: 1.63,
     band: "eWS 1.32 to 1.63",
+    band29: "1.78 to 2.19 haste",
+    band30: "1.84 to 2.26 haste",
+    band31: "1.91 to 2.34 haste",
     summary: "This is the clean GCD-swing alignment zone. Bloodlust-only BM and Rapid Fire-only BM commonly hit it."
   },
   {
@@ -37,6 +49,9 @@ const breakpoints = [
     minExclusive: 1.1,
     maxInclusive: 1.32,
     band: "eWS 1.10 to 1.32",
+    band29: "2.19 to 2.64 haste",
+    band30: "2.26 to 2.73 haste",
+    band31: "2.35 to 2.82 haste",
     summary: "This is the classic Rapid Fire plus Hawk or Rapid Fire plus Bloodlust BM window."
   },
   {
@@ -45,6 +60,9 @@ const breakpoints = [
     minExclusive: 0.9,
     maxInclusive: 1.1,
     band: "eWS 0.90 to 1.10",
+    band29: "2.64 to 3.23 haste",
+    band30: "2.73 to 3.33 haste",
+    band31: "2.82 to 3.45 haste",
     summary: "Very high haste. Rapid Fire plus Bloodlust plus Hawk moves BM here."
   },
   {
@@ -53,6 +71,9 @@ const breakpoints = [
     minExclusive: 0.7,
     maxInclusive: 0.9,
     band: "eWS 0.70 to 0.90",
+    band29: "3.23 to 4.15 haste",
+    band30: "3.33 to 4.28 haste",
+    band31: "3.45 to 4.43 haste",
     summary: "This is the heavy-stack band. Fully stacked SV without Hawk often lands here."
   },
   {
@@ -61,6 +82,9 @@ const breakpoints = [
     minExclusive: -Infinity,
     maxInclusive: 0.7,
     band: "eWS below 0.70",
+    band29: "> 4.15 haste",
+    band30: "> 4.28 haste",
+    band31: "> 4.43 haste",
     summary: "Maximum phase-1 BM stack. You are deep in the compressed end of the chart."
   }
 ];
@@ -73,21 +97,8 @@ const rotationSummary = document.getElementById("rotation-summary");
 const ewsValue = document.getElementById("ews-value");
 const speed29Band = document.getElementById("speed-29-band");
 const speed30Band = document.getElementById("speed-30-band");
+const speed31Band = document.getElementById("speed-31-band");
 const breakpointRows = Array.from(document.querySelectorAll("[data-rotation-id]"));
-
-function formatBand(entry, speed) {
-  if (entry.maxInclusive === Infinity) {
-    return `< ${formatNumber(speed / entry.minExclusive)}`;
-  }
-
-  if (entry.minExclusive === -Infinity) {
-    return `> ${formatNumber(speed / entry.maxInclusive)}`;
-  }
-
-  const lower = formatNumber(speed / entry.maxInclusive);
-  const upper = formatNumber(speed / entry.minExclusive);
-  return `${lower} to ${upper}`;
-}
 
 function formatNumber(value) {
   return Number(value).toFixed(2);
@@ -110,6 +121,7 @@ function updateCalculator() {
     ewsValue.textContent = "—";
     speed29Band.textContent = "—";
     speed30Band.textContent = "—";
+    speed31Band.textContent = "—";
     breakpointRows.forEach((row) => row.classList.remove("is-match"));
     return;
   }
@@ -121,8 +133,9 @@ function updateCalculator() {
   rotationBand.textContent = match.band;
   rotationSummary.textContent = match.summary;
   ewsValue.textContent = formatNumber(ews);
-  speed29Band.textContent = `${formatBand(match, 2.9)} haste`;
-  speed30Band.textContent = `${formatBand(match, 3.0)} haste`;
+  speed29Band.textContent = match.band29;
+  speed30Band.textContent = match.band30;
+  speed31Band.textContent = match.band31;
   breakpointRows.forEach((row) => {
     row.classList.toggle("is-match", row.dataset.rotationId === match.id);
   });
