@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TBC Hunter Rotation Field Guide</title>
+    <meta
+      name="description"
+      content="A practical TBC Hunter rotation guide distilled from the tbc_rotationtools repo, with breakpoint tables, BM and SV cheat sheets, and an eWS calculator."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./tbc-hunter-rotation-guide.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">TBC Hunter Rotation Field Guide</p>
+          <h1>Use the shot rhythm your haste actually supports.</h1>
+          <p class="hero-text">
+            This page turns the repo’s rotation scans into something you can use
+            mid-raid. The core rule is simple: measure your effective weapon
+            swing, then move to the matching ranged cycle. For weaving, use the
+            common proc-state guide instead of pretending the problem is only
+            one-dimensional.
+          </p>
+        </div>
+
+        <div class="hero-panel">
+          <p class="panel-kicker">Fast read</p>
+          <ul class="hero-list">
+            <li>BM base sits in French.</li>
+            <li>BM Hawk or DST pushes you into long French.</li>
+            <li>Rapid Fire usually means 1:1 or skipping.</li>
+            <li>Full stack is 2:5 for ranged and 3:7 2w for weaving.</li>
+          </ul>
+        </div>
+      </header>
+
+      <main class="content-grid">
+        <section class="stack">
+          <article class="panel calculator-panel">
+            <div class="panel-head">
+              <div>
+                <p class="kicker">Quick Calculator</p>
+                <h2>Find your ranged rotation from weapon speed and total haste.</h2>
+              </div>
+              <p class="panel-note">
+                Total ranged haste is your full multiplier, not the bonus amount.
+                Example: BM base is <code>1.38</code>, not <code>0.38</code>.
+              </p>
+            </div>
+
+            <div class="calculator-grid">
+              <label class="field">
+                <span>Weapon speed</span>
+                <input id="weapon-speed" type="number" min="2.5" max="3.5" step="0.1" value="2.9" />
+              </label>
+              <label class="field">
+                <span>Total ranged haste</span>
+                <input id="haste-multiplier" type="number" min="0.7" max="5" step="0.01" value="1.38" />
+              </label>
+            </div>
+
+            <div class="result-card" aria-live="polite">
+              <p class="result-label">Recommended ranged cycle</p>
+              <div class="result-main">
+                <strong id="rotation-name">French 5:5:1:1</strong>
+                <span id="rotation-band">eWS 1.95 to 2.34</span>
+              </div>
+              <p id="rotation-summary" class="result-copy">
+                This is the standard BM baseline zone.
+              </p>
+              <dl class="result-stats">
+                <div>
+                  <dt>eWS</dt>
+                  <dd id="ews-value">2.10</dd>
+                </div>
+                <div>
+                  <dt>2.9 bow band</dt>
+                  <dd id="speed-29-band">1.24 to 1.49 haste</dd>
+                </div>
+                <div>
+                  <dt>3.0 bow band</dt>
+                  <dd id="speed-30-band">1.30 to 1.55 haste</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="preset-row" aria-label="Common states">
+              <button class="preset" type="button" data-speed="2.9" data-haste="1.38">BM Base</button>
+              <button class="preset" type="button" data-speed="2.9" data-haste="1.587">BM Hawk</button>
+              <button class="preset" type="button" data-speed="2.9" data-haste="1.932">BM Rapid Fire</button>
+              <button class="preset" type="button" data-speed="2.9" data-haste="2.222">BM RF + Hawk</button>
+              <button class="preset" type="button" data-speed="2.9" data-haste="2.888">BM RF + BL + Hawk</button>
+              <button class="preset" type="button" data-speed="2.9" data-haste="1.15">SV Base</button>
+              <button class="preset" type="button" data-speed="2.9" data-haste="1.61">SV Rapid Fire</button>
+              <button class="preset" type="button" data-speed="2.9" data-haste="4.54">BM Full Stack</button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="kicker">Ranged Breakpoints</p>
+                <h2>The clean table</h2>
+              </div>
+              <p class="panel-note">
+                These are the ranges the repo converges on when it brute-forces
+                the listed ranged rotations.
+              </p>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Rotation</th>
+                    <th>eWS</th>
+                    <th>2.9 bow haste</th>
+                    <th>3.0 bow haste</th>
+                    <th>Use case</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Short French 5:4:1:1</td>
+                    <td>&gt; 2.34</td>
+                    <td>&lt; 1.24</td>
+                    <td>&lt; 1.30</td>
+                    <td>Base SV and other very slow states</td>
+                  </tr>
+                  <tr>
+                    <td>French 5:5:1:1</td>
+                    <td>1.95 to 2.34</td>
+                    <td>1.24 to 1.49</td>
+                    <td>1.30 to 1.55</td>
+                    <td>Base BM, drums-only BM, DST-era SV</td>
+                  </tr>
+                  <tr>
+                    <td>Long French 5:6:1:1</td>
+                    <td>1.63 to 1.95</td>
+                    <td>1.49 to 1.78</td>
+                    <td>1.55 to 1.84</td>
+                    <td>BM Hawk or DST, SV Bloodlust or Rapid Fire</td>
+                  </tr>
+                  <tr>
+                    <td>1:1</td>
+                    <td>1.32 to 1.63</td>
+                    <td>1.78 to 2.19</td>
+                    <td>1.84 to 2.26</td>
+                    <td>Bloodlust-only BM, Rapid Fire-only BM, RF plus BL SV</td>
+                  </tr>
+                  <tr>
+                    <td>Skipping 5:9:1:1</td>
+                    <td>1.10 to 1.32</td>
+                    <td>2.19 to 2.64</td>
+                    <td>2.26 to 2.73</td>
+                    <td>BM RF plus Hawk or BM RF plus Bloodlust</td>
+                  </tr>
+                  <tr>
+                    <td>2:3</td>
+                    <td>0.90 to 1.10</td>
+                    <td>2.64 to 3.23</td>
+                    <td>2.73 to 3.33</td>
+                    <td>BM RF plus BL plus Hawk</td>
+                  </tr>
+                  <tr>
+                    <td>1:2</td>
+                    <td>0.70 to 0.90</td>
+                    <td>3.23 to 4.15</td>
+                    <td>3.33 to 4.28</td>
+                    <td>High proc stacks, fully stacked SV without Hawk</td>
+                  </tr>
+                  <tr>
+                    <td>2:5</td>
+                    <td>&lt; 0.70</td>
+                    <td>&gt; 4.15</td>
+                    <td>&gt; 4.28</td>
+                    <td>Maximum phase-1 BM stack</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel split-panel">
+            <section class="cheat-sheet">
+              <p class="kicker">BM Cheat Sheet</p>
+              <h2>What BM actually plays</h2>
+              <ul class="card-list">
+                <li><strong>Base BM or drums only:</strong> French 5:5:1:1</li>
+                <li><strong>Hawk proc or DST:</strong> long French 5:6:1:1</li>
+                <li><strong>Bloodlust only or Rapid Fire only:</strong> 1:1</li>
+                <li><strong>Rapid Fire plus Hawk:</strong> skipping 5:9:1:1</li>
+                <li><strong>Rapid Fire plus Bloodlust:</strong> skipping 5:9:1:1</li>
+                <li><strong>Rapid Fire plus BL plus Hawk:</strong> 2:3</li>
+                <li><strong>Full phase-1 stack:</strong> 2:5</li>
+              </ul>
+            </section>
+
+            <section class="cheat-sheet">
+              <p class="kicker">SV Cheat Sheet</p>
+              <h2>Where SV starts slower</h2>
+              <ul class="card-list">
+                <li><strong>Base SV:</strong> short French 5:4:1:1</li>
+                <li><strong>DST proc:</strong> French 5:5:1:1</li>
+                <li><strong>Bloodlust only:</strong> long French 5:6:1:1</li>
+                <li><strong>Rapid Fire only:</strong> long French 5:6:1:1</li>
+                <li><strong>Rapid Fire plus Bloodlust:</strong> 1:1</li>
+                <li><strong>Full phase-1 stack without Hawk talent:</strong> 1:2</li>
+              </ul>
+            </section>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="kicker">Melee Weaving</p>
+                <h2>Use the proc-state guide, not just the ranged eWS.</h2>
+              </div>
+              <p class="panel-note">
+                The repo treats weaving as a two-axis problem because melee and
+                ranged haste do not move together once ranged-only effects come
+                online.
+              </p>
+            </div>
+
+            <div class="weave-grid">
+              <article class="weave-card">
+                <h3>Low or simple haste</h3>
+                <ul>
+                  <li>No haste or drums only: French weaving</li>
+                  <li>Improved Hawk only: 2:2 1w</li>
+                  <li>DST or Bloodlust without extra ranged-only haste: 2:2 1w</li>
+                </ul>
+              </article>
+              <article class="weave-card">
+                <h3>Rapid Fire bands</h3>
+                <ul>
+                  <li>Rapid Fire: 6:9:1:1 3w</li>
+                  <li>Rapid Fire plus drums: 6:9:1:1 3w</li>
+                  <li>Rapid Fire plus Hawk: 6:9:1:1 3w</li>
+                  <li>Rapid Fire plus Hawk plus drums: 6:11:1:1 3w</li>
+                  <li>Rapid Fire plus Bloodlust: 6:11:1:1 3w</li>
+                </ul>
+              </article>
+              <article class="weave-card accent-card">
+                <h3>Maximum weave haste</h3>
+                <p>
+                  Rapid Fire plus Bloodlust plus Hawk, or anything below
+                  <strong>eWS 0.94</strong>, pushes you into
+                  <strong>3:7 2w</strong>.
+                </p>
+              </article>
+            </div>
+          </article>
+        </section>
+
+        <aside class="stack sidebar">
+          <article class="panel sidebar-panel">
+            <p class="kicker">Core Rule</p>
+            <h2>Only Steady right after an auto.</h2>
+            <p>
+              If a full Steady would clip the next auto, use the shorter reset
+              windows from Multi-Shot or Arcane Shot instead. Most of the
+              complex rotations are just structured ways to do that repeatedly.
+            </p>
+          </article>
+
+          <article class="panel sidebar-panel">
+            <p class="kicker">Remember</p>
+            <h2>BM and SV share the same timing map.</h2>
+            <p>
+              They mainly differ in where they enter it. BM starts faster
+              because of Serpent’s Swiftness. SV starts slower, so it spends
+              more time in short French and French.
+            </p>
+          </article>
+
+          <article class="panel sidebar-panel">
+            <p class="kicker">Source Notes</p>
+            <h2>How this guide was built</h2>
+            <p>
+              The breakpoint table comes from scanning the repo’s candidate
+              ranged rotations across haste values and recording where the best
+              rotation changes. Weave names follow the README terminology.
+            </p>
+          </article>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./tbc-hunter-rotation-guide.js"></script>
+  </body>
+</html>

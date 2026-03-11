@@ -1,0 +1,137 @@
+const breakpoints = [
+  {
+    id: "short-french",
+    name: "Short French 5:4:1:1",
+    minExclusive: 2.34,
+    maxInclusive: Infinity,
+    band: "eWS above 2.34",
+    summary: "This is the slow end of the map. Base SV lives here before larger haste effects show up."
+  },
+  {
+    id: "french",
+    name: "French 5:5:1:1",
+    minExclusive: 1.95,
+    maxInclusive: 2.34,
+    band: "eWS 1.95 to 2.34",
+    summary: "This is the standard BM baseline zone and the usual answer for medium-slow ranged haste."
+  },
+  {
+    id: "long-french",
+    name: "Long French 5:6:1:1",
+    minExclusive: 1.63,
+    maxInclusive: 1.95,
+    band: "eWS 1.63 to 1.95",
+    summary: "Hawk, DST, Bloodlust SV, and Rapid Fire SV often land here."
+  },
+  {
+    id: "one-one",
+    name: "1:1",
+    minExclusive: 1.32,
+    maxInclusive: 1.63,
+    band: "eWS 1.32 to 1.63",
+    summary: "This is the clean GCD-swing alignment zone. Bloodlust-only BM and Rapid Fire-only BM commonly hit it."
+  },
+  {
+    id: "skipping",
+    name: "Skipping 5:9:1:1",
+    minExclusive: 1.1,
+    maxInclusive: 1.32,
+    band: "eWS 1.10 to 1.32",
+    summary: "This is the classic Rapid Fire plus Hawk or Rapid Fire plus Bloodlust BM window."
+  },
+  {
+    id: "two-three",
+    name: "2:3",
+    minExclusive: 0.9,
+    maxInclusive: 1.1,
+    band: "eWS 0.90 to 1.10",
+    summary: "Very high haste. Rapid Fire plus Bloodlust plus Hawk moves BM here."
+  },
+  {
+    id: "one-two",
+    name: "1:2",
+    minExclusive: 0.7,
+    maxInclusive: 0.9,
+    band: "eWS 0.70 to 0.90",
+    summary: "This is the heavy-stack band. Fully stacked SV without Hawk often lands here."
+  },
+  {
+    id: "two-five",
+    name: "2:5",
+    minExclusive: -Infinity,
+    maxInclusive: 0.7,
+    band: "eWS below 0.70",
+    summary: "Maximum phase-1 BM stack. You are deep in the compressed end of the chart."
+  }
+];
+
+const speedInput = document.getElementById("weapon-speed");
+const hasteInput = document.getElementById("haste-multiplier");
+const rotationName = document.getElementById("rotation-name");
+const rotationBand = document.getElementById("rotation-band");
+const rotationSummary = document.getElementById("rotation-summary");
+const ewsValue = document.getElementById("ews-value");
+const speed29Band = document.getElementById("speed-29-band");
+const speed30Band = document.getElementById("speed-30-band");
+
+function formatBand(entry, speed) {
+  if (entry.maxInclusive === Infinity) {
+    return `< ${formatNumber(speed / entry.minExclusive)}`;
+  }
+
+  if (entry.minExclusive === -Infinity) {
+    return `> ${formatNumber(speed / entry.maxInclusive)}`;
+  }
+
+  const lower = formatNumber(speed / entry.maxInclusive);
+  const upper = formatNumber(speed / entry.minExclusive);
+  return `${lower} to ${upper}`;
+}
+
+function formatNumber(value) {
+  return Number(value).toFixed(2);
+}
+
+function findRotation(ews) {
+  return breakpoints.find(
+    (entry) => ews <= entry.maxInclusive && ews > entry.minExclusive
+  );
+}
+
+function updateCalculator() {
+  const speed = Number(speedInput.value);
+  const haste = Number(hasteInput.value);
+
+  if (!Number.isFinite(speed) || !Number.isFinite(haste) || speed <= 0 || haste <= 0) {
+    rotationName.textContent = "Enter valid numbers";
+    rotationBand.textContent = "";
+    rotationSummary.textContent = "Weapon speed and total ranged haste both need to be positive values.";
+    ewsValue.textContent = "—";
+    speed29Band.textContent = "—";
+    speed30Band.textContent = "—";
+    return;
+  }
+
+  const ews = speed / haste;
+  const match = findRotation(ews);
+
+  rotationName.textContent = match.name;
+  rotationBand.textContent = match.band;
+  rotationSummary.textContent = match.summary;
+  ewsValue.textContent = formatNumber(ews);
+  speed29Band.textContent = `${formatBand(match, 2.9)} haste`;
+  speed30Band.textContent = `${formatBand(match, 3.0)} haste`;
+}
+
+speedInput.addEventListener("input", updateCalculator);
+hasteInput.addEventListener("input", updateCalculator);
+
+document.querySelectorAll(".preset").forEach((button) => {
+  button.addEventListener("click", () => {
+    speedInput.value = button.dataset.speed;
+    hasteInput.value = button.dataset.haste;
+    updateCalculator();
+  });
+});
+
+updateCalculator();
