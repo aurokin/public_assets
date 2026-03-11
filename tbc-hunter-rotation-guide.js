@@ -73,6 +73,7 @@ const rotationSummary = document.getElementById("rotation-summary");
 const ewsValue = document.getElementById("ews-value");
 const speed29Band = document.getElementById("speed-29-band");
 const speed30Band = document.getElementById("speed-30-band");
+const breakpointRows = Array.from(document.querySelectorAll("[data-rotation-id]"));
 
 function formatBand(entry, speed) {
   if (entry.maxInclusive === Infinity) {
@@ -109,6 +110,7 @@ function updateCalculator() {
     ewsValue.textContent = "—";
     speed29Band.textContent = "—";
     speed30Band.textContent = "—";
+    breakpointRows.forEach((row) => row.classList.remove("is-match"));
     return;
   }
 
@@ -121,6 +123,9 @@ function updateCalculator() {
   ewsValue.textContent = formatNumber(ews);
   speed29Band.textContent = `${formatBand(match, 2.9)} haste`;
   speed30Band.textContent = `${formatBand(match, 3.0)} haste`;
+  breakpointRows.forEach((row) => {
+    row.classList.toggle("is-match", row.dataset.rotationId === match.id);
+  });
 }
 
 speedInput.addEventListener("input", updateCalculator);

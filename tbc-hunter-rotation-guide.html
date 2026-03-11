@@ -8,6 +8,10 @@
       name="description"
       content="A practical TBC Hunter rotation guide distilled from the tbc_rotationtools repo, with breakpoint tables, BM and SV cheat sheets, and an eWS calculator."
     />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%232b241d'/%3E%3Cpath d='M32 10 50 28 39 28 39 54 25 54 25 28 14 28Z' fill='%23d2b28f'/%3E%3C/svg%3E"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,31 +27,41 @@
           <h1>TBC Hunter rotation guide</h1>
           <p>
             A practical reference built from the `tbc_rotationtools` repo. Use
-            effective weapon swing for ranged rotation swaps. For weaving, use
-            the common haste-state guide because melee and ranged haste do not
-            move together.
+            effective weapon swing for ranged swaps. For weaving, use the haste
+            state guide instead of treating the problem as one-dimensional.
           </p>
         </div>
 
-        <dl class="page-summary">
-          <div>
-            <dt>Fast read</dt>
-            <dd>BM base is French. Hawk or DST moves BM to long French.</dd>
-          </div>
-          <div>
-            <dt>High haste</dt>
-            <dd>Rapid Fire usually means 1:1 or skipping before the very fast combined cycles.</dd>
-          </div>
-          <div>
-            <dt>Maximum stack</dt>
-            <dd>Full phase-1 BM stack is 2:5 ranged and 3:7 2w for weaving.</dd>
-          </div>
-        </dl>
+        <nav class="quick-nav" aria-label="Page sections">
+          <a href="#calculator">Calculator</a>
+          <a href="#breakpoints">Breakpoints</a>
+          <a href="#playbooks">Playbooks</a>
+          <a href="#weaving">Weaving</a>
+        </nav>
       </header>
+
+      <section class="summary-strip" aria-label="At a glance">
+        <article>
+          <h2>BM base</h2>
+          <p>French 5:5:1:1</p>
+        </article>
+        <article>
+          <h2>Hawk or DST</h2>
+          <p>Long French 5:6:1:1</p>
+        </article>
+        <article>
+          <h2>Rapid Fire windows</h2>
+          <p>Usually 1:1, then skipping, then combined cycles</p>
+        </article>
+        <article>
+          <h2>Full phase-1 stack</h2>
+          <p>2:5 ranged, 3:7 2w weaving</p>
+        </article>
+      </section>
 
       <main class="page-grid">
         <section class="content-column">
-          <section class="section-block">
+          <section class="section-block tool-block" id="calculator">
             <div class="section-head">
               <div>
                 <h2>Calculator</h2>
@@ -59,54 +73,61 @@
               </div>
             </div>
 
-            <div class="calculator-grid">
-              <label class="field">
-                <span>Weapon speed</span>
-                <input id="weapon-speed" type="number" min="2.5" max="3.5" step="0.1" value="2.9" />
-              </label>
-              <label class="field">
-                <span>Total ranged haste</span>
-                <input id="haste-multiplier" type="number" min="0.7" max="5" step="0.01" value="1.38" />
-              </label>
-            </div>
+            <div class="tool-layout">
+              <div class="input-panel">
+                <div class="calculator-grid">
+                  <label class="field">
+                    <span>Weapon speed</span>
+                    <input id="weapon-speed" type="number" min="2.5" max="3.5" step="0.1" value="2.9" />
+                  </label>
+                  <label class="field">
+                    <span>Total ranged haste</span>
+                    <input id="haste-multiplier" type="number" min="0.7" max="5" step="0.01" value="1.38" />
+                  </label>
+                </div>
 
-            <div class="result-card" aria-live="polite">
-              <div class="result-main">
-                <strong id="rotation-name">French 5:5:1:1</strong>
-                <span id="rotation-band">eWS 1.95 to 2.34</span>
+                <div class="preset-row" aria-label="Common states">
+                  <button class="preset" type="button" data-speed="2.9" data-haste="1.38">BM Base</button>
+                  <button class="preset" type="button" data-speed="2.9" data-haste="1.587">BM Hawk</button>
+                  <button class="preset" type="button" data-speed="2.9" data-haste="1.932">BM Rapid Fire</button>
+                  <button class="preset" type="button" data-speed="2.9" data-haste="2.222">BM RF + Hawk</button>
+                  <button class="preset" type="button" data-speed="2.9" data-haste="2.888">BM RF + BL + Hawk</button>
+                  <button class="preset" type="button" data-speed="2.9" data-haste="1.15">SV Base</button>
+                  <button class="preset" type="button" data-speed="2.9" data-haste="1.61">SV Rapid Fire</button>
+                  <button class="preset" type="button" data-speed="2.9" data-haste="4.54">BM Full Stack</button>
+                </div>
               </div>
-              <p id="rotation-summary" class="result-copy">
-                This is the standard BM baseline zone.
-              </p>
-              <dl class="result-stats">
-                <div>
-                  <dt>eWS</dt>
-                  <dd id="ews-value">2.10</dd>
-                </div>
-                <div>
-                  <dt>2.9 bow band</dt>
-                  <dd id="speed-29-band">1.24 to 1.49 haste</dd>
-                </div>
-                <div>
-                  <dt>3.0 bow band</dt>
-                  <dd id="speed-30-band">1.30 to 1.55 haste</dd>
-                </div>
-              </dl>
-            </div>
 
-            <div class="preset-row" aria-label="Common states">
-              <button class="preset" type="button" data-speed="2.9" data-haste="1.38">BM Base</button>
-              <button class="preset" type="button" data-speed="2.9" data-haste="1.587">BM Hawk</button>
-              <button class="preset" type="button" data-speed="2.9" data-haste="1.932">BM Rapid Fire</button>
-              <button class="preset" type="button" data-speed="2.9" data-haste="2.222">BM RF + Hawk</button>
-              <button class="preset" type="button" data-speed="2.9" data-haste="2.888">BM RF + BL + Hawk</button>
-              <button class="preset" type="button" data-speed="2.9" data-haste="1.15">SV Base</button>
-              <button class="preset" type="button" data-speed="2.9" data-haste="1.61">SV Rapid Fire</button>
-              <button class="preset" type="button" data-speed="2.9" data-haste="4.54">BM Full Stack</button>
+              <div class="result-card" aria-live="polite">
+                <div class="result-label-row">
+                  <span class="result-label">Recommended cycle</span>
+                  <span id="rotation-band" class="result-band">eWS 1.95 to 2.34</span>
+                </div>
+                <div class="result-main">
+                  <strong id="rotation-name">French 5:5:1:1</strong>
+                </div>
+                <p id="rotation-summary" class="result-copy">
+                  This is the standard BM baseline zone.
+                </p>
+                <dl class="result-stats">
+                  <div>
+                    <dt>eWS</dt>
+                    <dd id="ews-value">2.10</dd>
+                  </div>
+                  <div>
+                    <dt>2.9 bow band</dt>
+                    <dd id="speed-29-band">1.24 to 1.49 haste</dd>
+                  </div>
+                  <div>
+                    <dt>3.0 bow band</dt>
+                    <dd id="speed-30-band">1.30 to 1.55 haste</dd>
+                  </div>
+                </dl>
+              </div>
             </div>
           </section>
 
-          <section class="section-block">
+          <section class="section-block table-block" id="breakpoints">
             <div class="section-head">
               <div>
                 <h2>Ranged breakpoints</h2>
@@ -129,56 +150,56 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr data-rotation-id="short-french">
                     <td>Short French 5:4:1:1</td>
                     <td>&gt; 2.34</td>
                     <td>&lt; 1.24</td>
                     <td>&lt; 1.30</td>
                     <td>Base SV and other very slow states</td>
                   </tr>
-                  <tr>
+                  <tr data-rotation-id="french">
                     <td>French 5:5:1:1</td>
                     <td>1.95 to 2.34</td>
                     <td>1.24 to 1.49</td>
                     <td>1.30 to 1.55</td>
                     <td>Base BM, drums-only BM, DST-era SV</td>
                   </tr>
-                  <tr>
+                  <tr data-rotation-id="long-french">
                     <td>Long French 5:6:1:1</td>
                     <td>1.63 to 1.95</td>
                     <td>1.49 to 1.78</td>
                     <td>1.55 to 1.84</td>
                     <td>BM Hawk or DST, SV Bloodlust or Rapid Fire</td>
                   </tr>
-                  <tr>
+                  <tr data-rotation-id="one-one">
                     <td>1:1</td>
                     <td>1.32 to 1.63</td>
                     <td>1.78 to 2.19</td>
                     <td>1.84 to 2.26</td>
                     <td>Bloodlust-only BM, Rapid Fire-only BM, RF plus BL SV</td>
                   </tr>
-                  <tr>
+                  <tr data-rotation-id="skipping">
                     <td>Skipping 5:9:1:1</td>
                     <td>1.10 to 1.32</td>
                     <td>2.19 to 2.64</td>
                     <td>2.26 to 2.73</td>
                     <td>BM RF plus Hawk or BM RF plus Bloodlust</td>
                   </tr>
-                  <tr>
+                  <tr data-rotation-id="two-three">
                     <td>2:3</td>
                     <td>0.90 to 1.10</td>
                     <td>2.64 to 3.23</td>
                     <td>2.73 to 3.33</td>
                     <td>BM RF plus BL plus Hawk</td>
                   </tr>
-                  <tr>
+                  <tr data-rotation-id="one-two">
                     <td>1:2</td>
                     <td>0.70 to 0.90</td>
                     <td>3.23 to 4.15</td>
                     <td>3.33 to 4.28</td>
                     <td>High proc stacks, fully stacked SV without Hawk</td>
                   </tr>
-                  <tr>
+                  <tr data-rotation-id="two-five">
                     <td>2:5</td>
                     <td>&lt; 0.70</td>
                     <td>&gt; 4.15</td>
@@ -190,34 +211,85 @@
             </div>
           </section>
 
-          <section class="section-block split-block">
-            <section>
-              <h2>BM cheat sheet</h2>
-              <ul class="card-list">
-                <li><strong>Base BM or drums only:</strong> French 5:5:1:1</li>
-                <li><strong>Hawk proc or DST:</strong> long French 5:6:1:1</li>
-                <li><strong>Bloodlust only or Rapid Fire only:</strong> 1:1</li>
-                <li><strong>Rapid Fire plus Hawk:</strong> skipping 5:9:1:1</li>
-                <li><strong>Rapid Fire plus Bloodlust:</strong> skipping 5:9:1:1</li>
-                <li><strong>Rapid Fire plus BL plus Hawk:</strong> 2:3</li>
-                <li><strong>Full phase-1 stack:</strong> 2:5</li>
-              </ul>
-            </section>
+          <section class="section-block playbook-block" id="playbooks">
+            <div class="section-head">
+              <div>
+                <h2>Spec playbooks</h2>
+                <p>
+                  Read these as quick state-to-rotation swaps instead of a full
+                  theory section.
+                </p>
+              </div>
+            </div>
 
-            <section>
+            <div class="playbook-grid">
+              <section class="playbook playbook-bm">
+              <h2>BM cheat sheet</h2>
+                <dl class="playbook-list">
+                  <div>
+                    <dt>Base BM or drums only</dt>
+                    <dd>French 5:5:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Hawk proc or DST</dt>
+                    <dd>Long French 5:6:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Bloodlust only or Rapid Fire only</dt>
+                    <dd>1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Rapid Fire plus Hawk</dt>
+                    <dd>Skipping 5:9:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Rapid Fire plus Bloodlust</dt>
+                    <dd>Skipping 5:9:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Rapid Fire plus BL plus Hawk</dt>
+                    <dd>2:3</dd>
+                  </div>
+                  <div>
+                    <dt>Full phase-1 stack</dt>
+                    <dd>2:5</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section class="playbook playbook-sv">
               <h2>SV cheat sheet</h2>
-              <ul class="card-list">
-                <li><strong>Base SV:</strong> short French 5:4:1:1</li>
-                <li><strong>DST proc:</strong> French 5:5:1:1</li>
-                <li><strong>Bloodlust only:</strong> long French 5:6:1:1</li>
-                <li><strong>Rapid Fire only:</strong> long French 5:6:1:1</li>
-                <li><strong>Rapid Fire plus Bloodlust:</strong> 1:1</li>
-                <li><strong>Full phase-1 stack without Hawk talent:</strong> 1:2</li>
-              </ul>
-            </section>
+                <dl class="playbook-list">
+                  <div>
+                    <dt>Base SV</dt>
+                    <dd>Short French 5:4:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>DST proc</dt>
+                    <dd>French 5:5:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Bloodlust only</dt>
+                    <dd>Long French 5:6:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Rapid Fire only</dt>
+                    <dd>Long French 5:6:1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Rapid Fire plus Bloodlust</dt>
+                    <dd>1:1</dd>
+                  </div>
+                  <div>
+                    <dt>Full phase-1 stack without Hawk talent</dt>
+                    <dd>1:2</dd>
+                  </div>
+                </dl>
+              </section>
+            </div>
           </section>
 
-          <section class="section-block">
+          <section class="section-block weaving-block" id="weaving">
             <div class="section-head">
               <div>
                 <h2>Melee weaving</h2>
@@ -230,7 +302,7 @@
             </div>
 
             <div class="weave-grid">
-              <article class="weave-card">
+              <article class="weave-card weave-simple">
                 <h3>Low or simple haste</h3>
                 <ul>
                   <li>No haste or drums only: French weaving</li>
@@ -238,7 +310,7 @@
                   <li>DST or Bloodlust without extra ranged-only haste: 2:2 1w</li>
                 </ul>
               </article>
-              <article class="weave-card">
+              <article class="weave-card weave-rapid">
                 <h3>Rapid Fire bands</h3>
                 <ul>
                   <li>Rapid Fire: 6:9:1:1 3w</li>
@@ -248,7 +320,7 @@
                   <li>Rapid Fire plus Bloodlust: 6:11:1:1 3w</li>
                 </ul>
               </article>
-              <article class="weave-card accent-card">
+              <article class="weave-card weave-max">
                 <h3>Maximum weave haste</h3>
                 <p>
                   Rapid Fire plus Bloodlust plus Hawk, or anything below
@@ -261,23 +333,36 @@
         </section>
 
         <aside class="sidebar-column">
-          <section class="section-block sidebar-block">
-            <h2>Rules to remember</h2>
-            <ul class="note-list">
-              <li>Only Steady immediately after an auto.</li>
-              <li>If Steady would clip an auto, use Multi-Shot or Arcane Shot instead.</li>
-              <li>BM and SV follow the same timing map. BM just enters it farther right.</li>
-              <li>Weaving recommendations follow the README naming, not the drifted comments in `gear.yaml`.</li>
-            </ul>
+          <section class="section-block sidebar-block rule-block">
+            <h2>Field rules</h2>
+            <ol class="rule-list">
+              <li>Only cast Steady immediately after an auto.</li>
+              <li>If Steady would clip the next auto, use Multi-Shot or Arcane Shot instead.</li>
+              <li>BM and SV share the same timing map. BM just enters it farther right.</li>
+            </ol>
           </section>
 
-          <section class="section-block sidebar-block">
-            <h2>How to read total haste</h2>
-            <ul class="note-list">
-              <li>BM base with quiver and Serpent’s Swiftness is `1.38`.</li>
-              <li>SV base with quiver only is `1.15`.</li>
-              <li>eWS is `weapon speed / total ranged haste`.</li>
-            </ul>
+          <section class="section-block sidebar-block formula-block">
+            <h2>Haste conversion</h2>
+            <p class="formula-line">eWS = weapon speed / total ranged haste</p>
+            <dl class="mini-stats">
+              <div>
+                <dt>BM base</dt>
+                <dd>`1.38`</dd>
+              </div>
+              <div>
+                <dt>SV base</dt>
+                <dd>`1.15`</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="section-block sidebar-block note-block">
+            <h2>Naming note</h2>
+            <p>
+              Weaving names on this page follow the README wording, not the
+              stale comments in `gear.yaml`.
+            </p>
           </section>
         </aside>
       </main>
