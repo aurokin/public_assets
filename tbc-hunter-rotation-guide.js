@@ -5,9 +5,9 @@ const breakpoints = [
     minExclusive: 2.34,
     maxInclusive: Infinity,
     band: "eWS above 2.34",
-    band29: "< 1.24 haste",
-    band30: "< 1.30 haste",
-    band31: "< 1.35 haste",
+    band29: "< 1.24",
+    band30: "< 1.30",
+    band31: "< 1.35",
     summary: "This is the slow end of the map. Base SV lives here before larger haste effects show up."
   },
   {
@@ -15,10 +15,10 @@ const breakpoints = [
     name: "French 5:5:1:1",
     minExclusive: 1.95,
     maxInclusive: 2.34,
-    band: "eWS 1.95 to 2.34",
-    band29: "1.24 to 1.49 haste",
-    band30: "1.30 to 1.55 haste",
-    band31: "1.36 to 1.61 haste",
+    band: "eWS 1.95 - 2.34",
+    band29: "1.24 - 1.49",
+    band30: "1.30 - 1.55",
+    band31: "1.36 - 1.61",
     summary: "This is the standard BM baseline zone and the usual answer for medium-slow ranged haste."
   },
   {
@@ -26,10 +26,10 @@ const breakpoints = [
     name: "Long French 5:6:1:1",
     minExclusive: 1.63,
     maxInclusive: 1.95,
-    band: "eWS 1.63 to 1.95",
-    band29: "1.49 to 1.78 haste",
-    band30: "1.55 to 1.84 haste",
-    band31: "1.61 to 1.91 haste",
+    band: "eWS 1.63 - 1.95",
+    band29: "1.49 - 1.78",
+    band30: "1.55 - 1.84",
+    band31: "1.61 - 1.91",
     summary: "Hawk, DST, Bloodlust SV, and Rapid Fire SV often land here."
   },
   {
@@ -37,10 +37,10 @@ const breakpoints = [
     name: "1:1",
     minExclusive: 1.32,
     maxInclusive: 1.63,
-    band: "eWS 1.32 to 1.63",
-    band29: "1.78 to 2.19 haste",
-    band30: "1.84 to 2.26 haste",
-    band31: "1.91 to 2.34 haste",
+    band: "eWS 1.32 - 1.63",
+    band29: "1.78 - 2.19",
+    band30: "1.84 - 2.26",
+    band31: "1.91 - 2.34",
     summary: "This is the clean GCD-swing alignment zone. Bloodlust-only BM and Rapid Fire-only BM commonly hit it."
   },
   {
@@ -48,10 +48,10 @@ const breakpoints = [
     name: "Skipping 5:9:1:1",
     minExclusive: 1.1,
     maxInclusive: 1.32,
-    band: "eWS 1.10 to 1.32",
-    band29: "2.19 to 2.64 haste",
-    band30: "2.26 to 2.73 haste",
-    band31: "2.35 to 2.82 haste",
+    band: "eWS 1.10 - 1.32",
+    band29: "2.19 - 2.64",
+    band30: "2.26 - 2.73",
+    band31: "2.35 - 2.82",
     summary: "This is the classic Rapid Fire plus Hawk or Rapid Fire plus Bloodlust BM window."
   },
   {
@@ -59,10 +59,10 @@ const breakpoints = [
     name: "2:3",
     minExclusive: 0.9,
     maxInclusive: 1.1,
-    band: "eWS 0.90 to 1.10",
-    band29: "2.64 to 3.23 haste",
-    band30: "2.73 to 3.33 haste",
-    band31: "2.82 to 3.45 haste",
+    band: "eWS 0.90 - 1.10",
+    band29: "2.64 - 3.23",
+    band30: "2.73 - 3.33",
+    band31: "2.82 - 3.45",
     summary: "Very high haste. Rapid Fire plus Bloodlust plus Hawk moves BM here."
   },
   {
@@ -70,10 +70,10 @@ const breakpoints = [
     name: "1:2",
     minExclusive: 0.7,
     maxInclusive: 0.9,
-    band: "eWS 0.70 to 0.90",
-    band29: "3.23 to 4.15 haste",
-    band30: "3.33 to 4.28 haste",
-    band31: "3.45 to 4.43 haste",
+    band: "eWS 0.70 - 0.90",
+    band29: "3.23 - 4.15",
+    band30: "3.33 - 4.28",
+    band31: "3.45 - 4.43",
     summary: "This is the heavy-stack band. Fully stacked SV without Hawk often lands here."
   },
   {
@@ -82,9 +82,9 @@ const breakpoints = [
     minExclusive: -Infinity,
     maxInclusive: 0.7,
     band: "eWS below 0.70",
-    band29: "> 4.15 haste",
-    band30: "> 4.28 haste",
-    band31: "> 4.43 haste",
+    band29: "> 4.15",
+    band30: "> 4.28",
+    band31: "> 4.43",
     summary: "Maximum phase-1 BM stack. You are deep in the compressed end of the chart."
   }
 ];
@@ -146,7 +146,6 @@ hasteInput.addEventListener("input", updateCalculator);
 
 document.querySelectorAll(".preset").forEach((button) => {
   button.addEventListener("click", () => {
-    speedInput.value = button.dataset.speed;
     hasteInput.value = button.dataset.haste;
     updateCalculator();
   });
