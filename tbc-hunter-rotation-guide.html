@@ -70,6 +70,11 @@
                   full multiplier, so BM base is <code>1.38</code>, not
                   <code>0.38</code>.
                 </p>
+                <p class="support-line">
+                  <strong>Formula:</strong> <code>eWS = weapon speed / total ranged haste</code>
+                  <span>BM base: <code>1.38</code></span>
+                  <span>SV base: <code>1.15</code></span>
+                </p>
               </div>
             </div>
 
@@ -330,41 +335,27 @@
               </article>
             </div>
           </section>
+          <details class="notes-panel">
+            <summary>Reference notes</summary>
+            <div class="notes-grid">
+              <section>
+                <h2>Field rules</h2>
+                <ol class="rule-list">
+                  <li>Only cast Steady immediately after an auto.</li>
+                  <li>If Steady would clip the next auto, use Multi-Shot or Arcane Shot instead.</li>
+                  <li>BM and SV share the same timing map. BM just enters it farther right.</li>
+                </ol>
+              </section>
+              <section>
+                <h2>Naming note</h2>
+                <p>
+                  Weaving names on this page follow the README wording, not the
+                  stale comments in <code>gear.yaml</code>.
+                </p>
+              </section>
+            </div>
+          </details>
         </section>
-
-        <aside class="sidebar-column">
-          <section class="section-block sidebar-block rule-block">
-            <h2>Field rules</h2>
-            <ol class="rule-list">
-              <li>Only cast Steady immediately after an auto.</li>
-              <li>If Steady would clip the next auto, use Multi-Shot or Arcane Shot instead.</li>
-              <li>BM and SV share the same timing map. BM just enters it farther right.</li>
-            </ol>
-          </section>
-
-          <section class="section-block sidebar-block formula-block">
-            <h2>Haste conversion</h2>
-            <p class="formula-line">eWS = weapon speed / total ranged haste</p>
-            <dl class="mini-stats">
-              <div>
-                <dt>BM base</dt>
-                <dd>`1.38`</dd>
-              </div>
-              <div>
-                <dt>SV base</dt>
-                <dd>`1.15`</dd>
-              </div>
-            </dl>
-          </section>
-
-          <section class="section-block sidebar-block note-block">
-            <h2>Naming note</h2>
-            <p>
-              Weaving names on this page follow the README wording, not the
-              stale comments in `gear.yaml`.
-            </p>
-          </section>
-        </aside>
       </main>
     </div>
 

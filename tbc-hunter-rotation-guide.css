@@ -136,14 +136,10 @@ body {
 }
 
 .page-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.82fr) minmax(280px, 0.86fr);
-  gap: 20px;
   margin-top: 20px;
 }
 
-.content-column,
-.sidebar-column {
+.content-column {
   display: grid;
   gap: 16px;
   align-content: start;
@@ -161,6 +157,23 @@ body {
 .playbook h2 {
   font-size: clamp(1.35rem, 2.5vw, 1.9rem);
   line-height: 1.15;
+}
+
+.support-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fffaf0;
+  font-size: 0.92rem;
+}
+
+.support-line span {
+  color: var(--muted);
 }
 
 .tool-block {
@@ -440,10 +453,6 @@ tbody tr.is-match td:first-child {
   border-top: 3px solid var(--claret);
 }
 
-.sidebar-block {
-  background: var(--surface-strong);
-}
-
 .rule-list,
 .note-list {
   margin: 12px 0 0;
@@ -455,43 +464,31 @@ tbody tr.is-match td:first-child {
   margin-bottom: 10px;
 }
 
-.formula-block {
-  background:
-    linear-gradient(180deg, rgba(176, 138, 97, 0.08), transparent 90px),
-    var(--surface);
+.notes-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
 }
 
-.formula-line {
-  margin: 10px 0 0;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: #fffdf8;
+.notes-panel summary {
+  padding: 14px 16px;
+  cursor: pointer;
   font-weight: 700;
 }
 
-.mini-stats {
-  display: grid;
-  gap: 10px;
-  margin: 14px 0 0;
-}
-
-.mini-stats div {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 10px;
+.notes-panel[open] summary {
   border-bottom: 1px solid var(--line);
 }
 
-.mini-stats div:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
+.notes-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 20px;
+  padding: 16px;
 }
 
-.mini-stats dd {
-  margin: 0;
-  font-weight: 700;
+.notes-grid h2 {
+  font-size: 1.05rem;
 }
 
 code {
@@ -504,10 +501,10 @@ code {
 
 @media (max-width: 1080px) {
   .summary-strip,
-  .page-grid,
   .tool-layout,
   .playbook-grid,
-  .weave-grid {
+  .weave-grid,
+  .notes-grid {
     grid-template-columns: 1fr;
   }
 
