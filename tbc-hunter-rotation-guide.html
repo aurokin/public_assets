@@ -11,49 +11,52 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./tbc-hunter-rotation-guide.css" />
   </head>
   <body>
     <div class="page-shell">
-      <header class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">TBC Hunter Rotation Field Guide</p>
-          <h1>Use the shot rhythm your haste actually supports.</h1>
-          <p class="hero-text">
-            This page turns the repo’s rotation scans into something you can use
-            mid-raid. The core rule is simple: measure your effective weapon
-            swing, then move to the matching ranged cycle. For weaving, use the
-            common proc-state guide instead of pretending the problem is only
-            one-dimensional.
+      <header class="page-header">
+        <div class="page-title">
+          <h1>TBC Hunter rotation guide</h1>
+          <p>
+            A practical reference built from the `tbc_rotationtools` repo. Use
+            effective weapon swing for ranged rotation swaps. For weaving, use
+            the common haste-state guide because melee and ranged haste do not
+            move together.
           </p>
         </div>
 
-        <div class="hero-panel">
-          <p class="panel-kicker">Fast read</p>
-          <ul class="hero-list">
-            <li>BM base sits in French.</li>
-            <li>BM Hawk or DST pushes you into long French.</li>
-            <li>Rapid Fire usually means 1:1 or skipping.</li>
-            <li>Full stack is 2:5 for ranged and 3:7 2w for weaving.</li>
-          </ul>
-        </div>
+        <dl class="page-summary">
+          <div>
+            <dt>Fast read</dt>
+            <dd>BM base is French. Hawk or DST moves BM to long French.</dd>
+          </div>
+          <div>
+            <dt>High haste</dt>
+            <dd>Rapid Fire usually means 1:1 or skipping before the very fast combined cycles.</dd>
+          </div>
+          <div>
+            <dt>Maximum stack</dt>
+            <dd>Full phase-1 BM stack is 2:5 ranged and 3:7 2w for weaving.</dd>
+          </div>
+        </dl>
       </header>
 
-      <main class="content-grid">
-        <section class="stack">
-          <article class="panel calculator-panel">
-            <div class="panel-head">
+      <main class="page-grid">
+        <section class="content-column">
+          <section class="section-block">
+            <div class="section-head">
               <div>
-                <p class="kicker">Quick Calculator</p>
-                <h2>Find your ranged rotation from weapon speed and total haste.</h2>
+                <h2>Calculator</h2>
+                <p>
+                  Enter weapon speed and total ranged haste. Total haste is the
+                  full multiplier, so BM base is <code>1.38</code>, not
+                  <code>0.38</code>.
+                </p>
               </div>
-              <p class="panel-note">
-                Total ranged haste is your full multiplier, not the bonus amount.
-                Example: BM base is <code>1.38</code>, not <code>0.38</code>.
-              </p>
             </div>
 
             <div class="calculator-grid">
@@ -68,7 +71,6 @@
             </div>
 
             <div class="result-card" aria-live="polite">
-              <p class="result-label">Recommended ranged cycle</p>
               <div class="result-main">
                 <strong id="rotation-name">French 5:5:1:1</strong>
                 <span id="rotation-band">eWS 1.95 to 2.34</span>
@@ -102,18 +104,17 @@
               <button class="preset" type="button" data-speed="2.9" data-haste="1.61">SV Rapid Fire</button>
               <button class="preset" type="button" data-speed="2.9" data-haste="4.54">BM Full Stack</button>
             </div>
-          </article>
+          </section>
 
-          <article class="panel">
-            <div class="panel-head">
+          <section class="section-block">
+            <div class="section-head">
               <div>
-                <p class="kicker">Ranged Breakpoints</p>
-                <h2>The clean table</h2>
+                <h2>Ranged breakpoints</h2>
+                <p>
+                  These ranges come from scanning the repo’s candidate ranged
+                  rotations and recording where the best result changes.
+                </p>
               </div>
-              <p class="panel-note">
-                These are the ranges the repo converges on when it brute-forces
-                the listed ranged rotations.
-              </p>
             </div>
 
             <div class="table-wrap">
@@ -187,12 +188,11 @@
                 </tbody>
               </table>
             </div>
-          </article>
+          </section>
 
-          <article class="panel split-panel">
-            <section class="cheat-sheet">
-              <p class="kicker">BM Cheat Sheet</p>
-              <h2>What BM actually plays</h2>
+          <section class="section-block split-block">
+            <section>
+              <h2>BM cheat sheet</h2>
               <ul class="card-list">
                 <li><strong>Base BM or drums only:</strong> French 5:5:1:1</li>
                 <li><strong>Hawk proc or DST:</strong> long French 5:6:1:1</li>
@@ -204,9 +204,8 @@
               </ul>
             </section>
 
-            <section class="cheat-sheet">
-              <p class="kicker">SV Cheat Sheet</p>
-              <h2>Where SV starts slower</h2>
+            <section>
+              <h2>SV cheat sheet</h2>
               <ul class="card-list">
                 <li><strong>Base SV:</strong> short French 5:4:1:1</li>
                 <li><strong>DST proc:</strong> French 5:5:1:1</li>
@@ -216,19 +215,18 @@
                 <li><strong>Full phase-1 stack without Hawk talent:</strong> 1:2</li>
               </ul>
             </section>
-          </article>
+          </section>
 
-          <article class="panel">
-            <div class="panel-head">
+          <section class="section-block">
+            <div class="section-head">
               <div>
-                <p class="kicker">Melee Weaving</p>
-                <h2>Use the proc-state guide, not just the ranged eWS.</h2>
+                <h2>Melee weaving</h2>
+                <p>
+                  The repo treats weaving as a two-axis problem. Use the
+                  common proc-state guide instead of only looking at ranged
+                  eWS.
+                </p>
               </div>
-              <p class="panel-note">
-                The repo treats weaving as a two-axis problem because melee and
-                ranged haste do not move together once ranged-only effects come
-                online.
-              </p>
             </div>
 
             <div class="weave-grid">
@@ -259,39 +257,28 @@
                 </p>
               </article>
             </div>
-          </article>
+          </section>
         </section>
 
-        <aside class="stack sidebar">
-          <article class="panel sidebar-panel">
-            <p class="kicker">Core Rule</p>
-            <h2>Only Steady right after an auto.</h2>
-            <p>
-              If a full Steady would clip the next auto, use the shorter reset
-              windows from Multi-Shot or Arcane Shot instead. Most of the
-              complex rotations are just structured ways to do that repeatedly.
-            </p>
-          </article>
+        <aside class="sidebar-column">
+          <section class="section-block sidebar-block">
+            <h2>Rules to remember</h2>
+            <ul class="note-list">
+              <li>Only Steady immediately after an auto.</li>
+              <li>If Steady would clip an auto, use Multi-Shot or Arcane Shot instead.</li>
+              <li>BM and SV follow the same timing map. BM just enters it farther right.</li>
+              <li>Weaving recommendations follow the README naming, not the drifted comments in `gear.yaml`.</li>
+            </ul>
+          </section>
 
-          <article class="panel sidebar-panel">
-            <p class="kicker">Remember</p>
-            <h2>BM and SV share the same timing map.</h2>
-            <p>
-              They mainly differ in where they enter it. BM starts faster
-              because of Serpent’s Swiftness. SV starts slower, so it spends
-              more time in short French and French.
-            </p>
-          </article>
-
-          <article class="panel sidebar-panel">
-            <p class="kicker">Source Notes</p>
-            <h2>How this guide was built</h2>
-            <p>
-              The breakpoint table comes from scanning the repo’s candidate
-              ranged rotations across haste values and recording where the best
-              rotation changes. Weave names follow the README terminology.
-            </p>
-          </article>
+          <section class="section-block sidebar-block">
+            <h2>How to read total haste</h2>
+            <ul class="note-list">
+              <li>BM base with quiver and Serpent’s Swiftness is `1.38`.</li>
+              <li>SV base with quiver only is `1.15`.</li>
+              <li>eWS is `weapon speed / total ranged haste`.</li>
+            </ul>
+          </section>
         </aside>
       </main>
     </div>
