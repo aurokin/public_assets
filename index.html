@@ -11,51 +11,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Rajdhani:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="page-shell">
-      <header class="hero">
-        <p class="eyebrow">SimulationCraft Tactical Brief</p>
-        <div class="hero-grid">
-          <section class="hero-copy">
-            <h1>Devastation Evoker Guide</h1>
-            <p class="hero-lead">
-              A readable flight deck for the default SimC APL, tuned to your
-              decoded <span>Scalecommander</span> build.
-            </p>
-            <p class="hero-body">
-              This site translates the active branches in
-              <code>ActionPriorityLists/default/evoker_devastation.simc</code>
-              into practical priorities. Your talent string routes single target
-              and 2-target cleave into <code>st_sc</code>, then swaps to
-              <code>aoe_sc</code> at 3 targets.
-            </p>
-          </section>
-
-          <aside class="hero-panel">
-            <p class="panel-label">Build Decode</p>
-            <ul class="talent-flags">
-              <li class="flag on">Mass Disintegrate</li>
-              <li class="flag on">Scalecommander</li>
-              <li class="flag on">Animosity</li>
-              <li class="flag on">Azure Sweep</li>
-              <li class="flag on">Imminent Destruction</li>
-              <li class="flag on">Strafing Run</li>
-              <li class="flag on">Burnout</li>
-              <li class="flag on">Slipstream</li>
-              <li class="flag off">Consume Flame</li>
-              <li class="flag off">Engulfing Blaze</li>
-            </ul>
-          </aside>
+      <header class="page-header">
+        <div class="page-intro">
+          <h1>Devastation Evoker APL Guide</h1>
+          <p>
+            A readable reference for the default SimulationCraft
+            <code>evoker_devastation.simc</code> list, filtered to the active
+            Scalecommander build.
+          </p>
         </div>
+
+        <dl class="page-summary">
+          <div>
+            <dt>Active build</dt>
+            <dd>Scalecommander with Mass Disintegrate, Animosity, and Azure Sweep.</dd>
+          </div>
+          <div>
+            <dt>Branch routing</dt>
+            <dd><code>st_sc</code> at 1 to 2 targets, <code>aoe_sc</code> at 3 targets.</dd>
+          </div>
+          <div>
+            <dt>Main priorities</dt>
+            <dd>Deep Breath upkeep, Dragonrage timing, and Mass Disintegrate spends.</dd>
+          </div>
+        </dl>
       </header>
 
       <main class="content-grid">
-        <section class="tabbed-guide" aria-label="Target count guide">
+        <section class="guide-panel" aria-label="Target count guide">
           <div class="tabs" role="tablist" aria-label="Target count">
             <button
               id="tab-1"
@@ -93,32 +83,32 @@
           </div>
 
           <article class="scenario-panel" id="scenario-panel">
-            <div class="scenario-head">
+            <header class="scenario-head">
               <div>
-                <p class="panel-label" id="scenario-branch">Branch</p>
+                <p class="branch-line" id="scenario-branch">APL branch: st_sc</p>
                 <h2 id="scenario-title">1 Target: Scalecommander Single Target</h2>
               </div>
               <p class="scenario-note" id="scenario-note"></p>
-            </div>
+            </header>
 
-            <div class="diagram-card">
+            <section class="diagram-card">
               <div class="diagram-meta">
-                <p class="panel-label">Priority Diagram</p>
+                <h3>Priority diagram</h3>
                 <p id="diagram-caption">
                   Read top to bottom. The first live condition wins.
                 </p>
               </div>
               <div id="diagram-frame" class="diagram-frame" aria-live="polite"></div>
-            </div>
+            </section>
 
             <div class="priority-layout">
               <section class="priority-card">
-                <p class="panel-label">Core Sequence</p>
+                <h3>Core sequence</h3>
                 <ol id="priority-list" class="priority-list"></ol>
               </section>
 
               <section class="priority-card">
-                <p class="panel-label">What Changes Here</p>
+                <h3>What changes here</h3>
                 <ul id="scenario-deltas" class="delta-list"></ul>
               </section>
             </div>
@@ -127,7 +117,23 @@
 
         <aside class="reference-column">
           <section class="reference-card">
-            <p class="panel-label">Live APL Switch</p>
+            <h2>Build decode</h2>
+            <ul class="talent-list">
+              <li><span>Mass Disintegrate</span><strong class="is-active">Active</strong></li>
+              <li><span>Scalecommander</span><strong class="is-active">Active</strong></li>
+              <li><span>Animosity</span><strong class="is-active">Active</strong></li>
+              <li><span>Azure Sweep</span><strong class="is-active">Active</strong></li>
+              <li><span>Imminent Destruction</span><strong class="is-active">Active</strong></li>
+              <li><span>Strafing Run</span><strong class="is-active">Active</strong></li>
+              <li><span>Burnout</span><strong class="is-active">Active</strong></li>
+              <li><span>Slipstream</span><strong class="is-active">Active</strong></li>
+              <li><span>Consume Flame</span><strong>Inactive</strong></li>
+              <li><span>Engulfing Blaze</span><strong>Inactive</strong></li>
+            </ul>
+          </section>
+
+          <section class="reference-card">
+            <h2>APL switch</h2>
             <ul class="reference-list">
               <li><code>active_enemies &lt; 3</code> + <code>mass_disintegrate</code> → <code>st_sc</code></li>
               <li><code>active_enemies &gt;= 3</code> + <code>mass_disintegrate</code> → <code>aoe_sc</code></li>
@@ -137,7 +143,7 @@
           </section>
 
           <section class="reference-card">
-            <p class="panel-label">Precombat</p>
+            <h2>Precombat</h2>
             <ul class="reference-list">
               <li><code>snapshot_stats</code></li>
               <li><code>verdant_embrace</code> from <code>scarlet_adaptation</code></li>
@@ -147,7 +153,7 @@
           </section>
 
           <section class="reference-card">
-            <p class="panel-label">Source</p>
+            <h2>Source</h2>
             <p class="reference-copy">
               Built from the default SimulationCraft Devastation Evoker APL in
               the SimC repository, with the talent string decoded into the

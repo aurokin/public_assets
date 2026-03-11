@@ -203,13 +203,13 @@ const deltasEl = document.getElementById("scenario-deltas");
 const diagramFrameEl = document.getElementById("diagram-frame");
 
 const palette = {
-  upkeep: { fill: "#3d6f90", stroke: "#6cb8ea" },
-  burst: { fill: "#7f3613", stroke: "#ff9b67" },
-  empower: { fill: "#8d6b18", stroke: "#f4cb65" },
-  spend: { fill: "#275e57", stroke: "#7fd4c1" },
-  filler: { fill: "#4a3b2c", stroke: "#dbc4a0" },
-  cleave: { fill: "#3c5e7d", stroke: "#88b9e2" },
-  decision: { fill: "#64461c", stroke: "#f3b84b" }
+  upkeep: { fill: "#35515a", stroke: "#7f9ca5" },
+  burst: { fill: "#6f3317", stroke: "#d59c7b" },
+  empower: { fill: "#775e1f", stroke: "#d8b775" },
+  spend: { fill: "#2f5b53", stroke: "#83b6a8" },
+  filler: { fill: "#4a3b2c", stroke: "#cdb597" },
+  cleave: { fill: "#465b66", stroke: "#9fb3be" },
+  decision: { fill: "#61461f", stroke: "#d4aa6e" }
 };
 
 function renderScenario(key) {
@@ -267,9 +267,9 @@ function renderDiagram(scenario) {
   const boxes = scenario.steps
     .map((step) => {
       const colors = palette[step.tag] || palette.filler;
-      const titleY = step.y + 34;
+      const titleY = step.y + 32;
       const bodyLines = wrapSvgText(step.body, 28);
-      const bodyY = step.y + 55;
+      const bodyY = step.y + 54;
       const bodyMarkup = bodyLines
         .map(
           (line, lineIndex) => `
@@ -284,7 +284,7 @@ function renderDiagram(scenario) {
             y="${step.y}"
             width="${boxWidth}"
             height="${boxHeight}"
-            rx="22"
+            rx="10"
             fill="${colors.fill}"
             stroke="${colors.stroke}"
             stroke-width="2"
@@ -292,26 +292,18 @@ function renderDiagram(scenario) {
           <text
             x="${step.x + 18}"
             y="${titleY}"
-            fill="#fff4e4"
-            font-family="Rajdhani, sans-serif"
-            font-size="21"
+            fill="#fff7eb"
+            font-family="Public Sans, sans-serif"
+            font-size="18"
             font-weight="700"
           >${step.title}</text>
           <text
             x="${step.x + 18}"
             y="${bodyY}"
-            fill="#f2dfc4"
-            font-family="Rajdhani, sans-serif"
-            font-size="15"
+            fill="#e9dbca"
+            font-family="Public Sans, sans-serif"
+            font-size="14"
           >${bodyMarkup}</text>
-          <text
-            x="${step.x + 18}"
-            y="${step.y + 20}"
-            fill="${colors.stroke}"
-            font-family="Rajdhani, sans-serif"
-            font-size="12"
-            letter-spacing="2"
-          >${step.tag.toUpperCase()}</text>
         </g>
       `;
     })
@@ -330,8 +322,8 @@ function renderDiagram(scenario) {
         <path
           d="M ${startX} ${startY} C ${startX + curve} ${startY}, ${endX - curve} ${endY}, ${endX} ${endY}"
           fill="none"
-          stroke="rgba(255, 239, 207, 0.85)"
-          stroke-width="3"
+          stroke="rgba(245, 233, 215, 0.8)"
+          stroke-width="2.5"
           marker-end="url(#arrowhead)"
         />
       `;
@@ -349,10 +341,10 @@ function renderDiagram(scenario) {
           refY="5"
           orient="auto"
         >
-          <path d="M0,0 L10,5 L0,10 Z" fill="rgba(255, 239, 207, 0.85)"></path>
+          <path d="M0,0 L10,5 L0,10 Z" fill="rgba(245, 233, 215, 0.8)"></path>
         </marker>
       </defs>
-      <rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="22" fill="transparent" stroke="rgba(255,255,255,0.07)"></rect>
+      <rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="10" fill="transparent" stroke="rgba(255,255,255,0.07)"></rect>
       ${arrows}
       ${boxes}
     </svg>
