@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Devoker Dung Build Early Test SimC Guide</title>
+    <meta
+      name="description"
+      content="A static guide for the Devoker dungeon early-test SimulationCraft build, translated into a readable Scalecommander Devastation Evoker reference."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="page-header">
+        <div class="page-intro">
+          <h1>Devoker Dung Build Early Test SimC Guide</h1>
+          <p>
+            A readable reference for the default SimulationCraft
+            <code>evoker_devastation.simc</code> list, filtered to the active
+            Scalecommander build.
+          </p>
+        </div>
+
+        <dl class="page-summary">
+          <div>
+            <dt>Active build</dt>
+            <dd>Scalecommander with Mass Disintegrate, Animosity, and Azure Sweep.</dd>
+          </div>
+          <div>
+            <dt>Branch routing</dt>
+            <dd><code>st_sc</code> at 1 to 2 targets, <code>aoe_sc</code> at 3 targets.</dd>
+          </div>
+          <div>
+            <dt>Main priorities</dt>
+            <dd>Deep Breath upkeep, Dragonrage timing, and Mass Disintegrate spends.</dd>
+          </div>
+        </dl>
+      </header>
+
+      <main class="content-grid">
+        <section class="guide-panel" aria-label="Target count guide">
+          <div class="tabs" role="tablist" aria-label="Target count">
+            <button
+              id="tab-1"
+              class="tab is-active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="scenario-panel"
+              data-scenario="one"
+            >
+              1 Target
+            </button>
+            <button
+              id="tab-2"
+              class="tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="scenario-panel"
+              data-scenario="two"
+            >
+              2 Targets
+            </button>
+            <button
+              id="tab-3"
+              class="tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="scenario-panel"
+              data-scenario="three"
+            >
+              3 Targets
+            </button>
+          </div>
+
+          <article class="scenario-panel" id="scenario-panel">
+            <header class="scenario-head">
+              <div>
+                <p class="branch-line" id="scenario-branch">APL branch: st_sc</p>
+                <h2 id="scenario-title">1 Target: Scalecommander Single Target</h2>
+              </div>
+              <p class="scenario-note" id="scenario-note"></p>
+            </header>
+
+            <section class="diagram-card">
+              <div class="diagram-meta">
+                <h3>Priority diagram</h3>
+                <p id="diagram-caption">
+                  Read top to bottom. The first live condition wins.
+                </p>
+              </div>
+              <div id="diagram-frame" class="diagram-frame" aria-live="polite"></div>
+            </section>
+
+            <div class="priority-layout">
+              <section class="priority-card">
+                <h3>Core sequence</h3>
+                <ol id="priority-list" class="priority-list"></ol>
+              </section>
+
+              <section class="priority-card">
+                <h3>What changes here</h3>
+                <ul id="scenario-deltas" class="delta-list"></ul>
+              </section>
+            </div>
+          </article>
+        </section>
+
+        <aside class="reference-column">
+          <section class="reference-card">
+            <h2>Build decode</h2>
+            <ul class="talent-list">
+              <li><span>Mass Disintegrate</span><strong class="is-active">Active</strong></li>
+              <li><span>Scalecommander</span><strong class="is-active">Active</strong></li>
+              <li><span>Animosity</span><strong class="is-active">Active</strong></li>
+              <li><span>Azure Sweep</span><strong class="is-active">Active</strong></li>
+              <li><span>Imminent Destruction</span><strong class="is-active">Active</strong></li>
+              <li><span>Strafing Run</span><strong class="is-active">Active</strong></li>
+              <li><span>Burnout</span><strong class="is-active">Active</strong></li>
+              <li><span>Slipstream</span><strong class="is-active">Active</strong></li>
+              <li><span>Consume Flame</span><strong>Inactive</strong></li>
+              <li><span>Engulfing Blaze</span><strong>Inactive</strong></li>
+            </ul>
+          </section>
+
+          <section class="reference-card">
+            <h2>APL switch</h2>
+            <ul class="reference-list">
+              <li><code>active_enemies &lt; 3</code> + <code>mass_disintegrate</code> → <code>st_sc</code></li>
+              <li><code>active_enemies &gt;= 3</code> + <code>mass_disintegrate</code> → <code>aoe_sc</code></li>
+              <li><code>tip_the_scales</code> is paired inside burst</li>
+              <li><code>eternity_surge</code> helper resolves to rank 1 because <code>mass_disintegrate</code> is active</li>
+            </ul>
+          </section>
+
+          <section class="reference-card">
+            <h2>Precombat</h2>
+            <ul class="reference-list">
+              <li><code>snapshot_stats</code></li>
+              <li><code>verdant_embrace</code> from <code>scarlet_adaptation</code></li>
+              <li>double <code>hover</code> prep from <code>slipstream</code></li>
+              <li><code>living_flame</code> before the pull</li>
+            </ul>
+          </section>
+
+          <section class="reference-card">
+            <h2>Source</h2>
+            <p class="reference-copy">
+              Built from the default SimulationCraft Devastation Evoker APL in
+              the SimC repository, with the talent string decoded into the
+              active branch and conditions used on this page.
+            </p>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
