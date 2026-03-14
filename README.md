@@ -13,6 +13,9 @@ Static public asset hosting repo for small, separate HTML/CSS/JS artifacts.
 - `artifacts/tbc-hunter-rotation-guide/index.html`: TBC Hunter field guide
 - `artifacts/tbc-hunter-rotation-guide/styles.css`: styling for the TBC Hunter guide
 - `artifacts/tbc-hunter-rotation-guide/main.js`: calculator and guide behavior
+- `artifacts/warlock_demo_early_agent_convo/index.html`: rendered transcript page for the Warlock markdown artifact
+- `artifacts/warlock_demo_early_agent_convo/styles.css`: styling for the rendered transcript page
+- `artifacts/warlock_demo_early_agent_convo/main.js`: markdown loading and rendering behavior
 - `artifacts/warlock_demo_early_agent_convo/warlock_demo_early_agent_convo.md`: preserved markdown transcript artifact
 - `.github/workflows/deploy.yml`: GitHub Pages deployment via Actions
 
