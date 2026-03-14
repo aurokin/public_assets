@@ -1,17 +1,14 @@
 :root {
-  --bg: #f1ebdf;
-  --bg-deep: #e4d6bf;
-  --surface: rgba(255, 250, 243, 0.82);
-  --surface-strong: #fff8ef;
-  --ink: #1f1711;
-  --muted: #675647;
-  --line: rgba(84, 61, 37, 0.18);
-  --accent: #a44d22;
-  --accent-deep: #7f3614;
-  --shadow: 0 20px 60px rgba(66, 38, 13, 0.12);
-  --radius-xl: 28px;
-  --radius-lg: 20px;
-  --radius-md: 14px;
+  --bg: #111315;
+  --surface: #171a1d;
+  --surface-alt: #1d2125;
+  --ink: #e7eaee;
+  --muted: #a8b0b8;
+  --line: #2b3138;
+  --accent: #d08a4e;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -25,285 +22,178 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(164, 77, 34, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(86, 112, 97, 0.14), transparent 22%),
-    linear-gradient(180deg, var(--bg), #efe5d6 45%, var(--bg-deep));
+  background: var(--bg);
   color: var(--ink);
   font-family: "IBM Plex Sans", sans-serif;
 }
 
-.noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.08;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35)),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23675647' stroke-opacity='.2'%3E%3Cpath d='M0 35h140M0 105h140M35 0v140M105 0v140'/%3E%3C/g%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
-}
-
 .page-shell {
-  position: relative;
-  width: min(1160px, calc(100% - 32px));
+  width: min(980px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 40px 0 56px;
+  padding: 24px 0 40px;
 }
 
-.hero,
-.asset-card,
-.notes-panel {
-  position: relative;
-  backdrop-filter: blur(14px);
+.page-header,
+.asset-item,
+.info-section {
   background: var(--surface);
   border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
 }
 
-.hero {
-  padding: 32px;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  right: -80px;
-  top: -70px;
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(164, 77, 34, 0.22), transparent 65%);
-}
-
-.eyebrow {
-  margin: 0 0 10px;
-  color: var(--accent-deep);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.hero h1,
-.notes-panel h2,
-.asset-card h2 {
-  margin: 0;
-}
-
-.hero h1,
-.notes-panel h2 {
-  font-family: "Instrument Serif", serif;
-  font-weight: 400;
-  letter-spacing: -0.03em;
-}
-
-.hero h1 {
-  max-width: 10ch;
-  font-size: clamp(3rem, 9vw, 5.8rem);
-  line-height: 0.92;
-}
-
-.hero-copy {
-  max-width: 42rem;
-  margin: 18px 0 0;
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.7;
-}
-
-.hero-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 28px;
-}
-
-.hero-meta article,
-.asset-card {
-  border-radius: var(--radius-lg);
-}
-
-.hero-meta article {
-  padding: 16px 18px;
-  background: rgba(255, 248, 239, 0.72);
-  border: 1px solid rgba(84, 61, 37, 0.12);
-}
-
-.meta-label,
-.asset-topline {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.hero-meta strong {
-  display: block;
-  margin-top: 6px;
-  font-size: 1rem;
-}
-
-.asset-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 22px;
-}
-
-.asset-card {
+.page-header {
   display: flex;
-  flex-direction: column;
-  min-height: 290px;
-  padding: 24px;
-}
-
-.asset-topline {
-  display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
+  padding: 20px 22px;
 }
 
-.asset-type {
+.page-header h1,
+.asset-body h2,
+.info-section h2 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.page-header h1 {
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  line-height: 1.05;
+}
+
+.page-copy {
+  max-width: 42rem;
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.page-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.page-meta span + span::before {
+  content: "·";
+  margin-right: 8px;
+}
+
+.asset-section {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.asset-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 20px;
+}
+
+.asset-body {
+  min-width: 0;
+}
+
+.asset-body h2 {
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.asset-body p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.asset-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.asset-meta code,
+.page-copy code,
+.info-list code {
+  padding: 0.12rem 0.32rem;
+  border-radius: 4px;
+  background: var(--surface-alt);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.92em;
+}
+
+.asset-link {
   display: inline-flex;
   align-items: center;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(164, 77, 34, 0.09);
-  color: var(--accent-deep);
-  font-weight: 700;
+  justify-content: center;
+  min-width: 72px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.asset-slug {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: 0.78rem;
+.asset-link:hover,
+.asset-link:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
 }
 
-.asset-card h2 {
-  margin-top: 18px;
-  font-size: 1.65rem;
-  line-height: 1.08;
+.info-section {
+  margin-top: 16px;
+  padding: 20px 22px;
 }
 
-.asset-card p {
-  margin: 14px 0 0;
+.info-section h2 {
+  font-size: 1.1rem;
+}
+
+.info-list {
+  margin: 12px 0 0;
+  padding-left: 18px;
   color: var(--muted);
   line-height: 1.65;
 }
 
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
+.info-list li + li {
+  margin-top: 8px;
 }
 
-.tag-row li {
-  padding: 7px 11px;
-  border: 1px solid rgba(84, 61, 37, 0.14);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.42);
-  font-size: 0.84rem;
-}
-
-.asset-actions {
-  margin-top: auto;
-  padding-top: 26px;
-}
-
-.asset-actions a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 138px;
-  padding: 12px 16px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: #fff8ef;
-  font-weight: 700;
-  text-decoration: none;
-  transition:
-    transform 160ms ease,
-    background-color 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.asset-actions a:hover,
-.asset-actions a:focus-visible {
-  background: var(--accent-deep);
-  box-shadow: 0 12px 24px rgba(127, 54, 20, 0.18);
-  transform: translateY(-2px);
-}
-
-.notes-panel {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
-  gap: 22px;
-  margin-top: 22px;
-  padding: 24px;
-  border-radius: var(--radius-xl);
-}
-
-.notes-panel h2 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 0.95;
-}
-
-.notes-list {
-  margin: 0;
-  padding-left: 18px;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.notes-list li + li {
-  margin-top: 10px;
-}
-
-@media (max-width: 840px) {
-  .hero-meta,
-  .asset-grid,
-  .notes-panel {
-    grid-template-columns: 1fr;
-  }
-
-  .asset-card {
-    min-height: 0;
-  }
-
-  .asset-topline {
-    align-items: flex-start;
+@media (max-width: 720px) {
+  .page-header,
+  .asset-item {
     flex-direction: column;
   }
-}
 
-@media (min-width: 841px) {
-  .asset-grid > :last-child:nth-child(odd) {
-    grid-column: 1 / span 2;
+  .asset-link {
+    width: fit-content;
   }
 }
 
 @media (max-width: 560px) {
   .page-shell {
-    width: min(100% - 20px, 1160px);
-    padding: 18px 0 32px;
+    width: min(100% - 20px, 980px);
+    padding: 16px 0 28px;
   }
 
-  .hero,
-  .asset-card,
-  .notes-panel {
-    padding: 20px;
-  }
-
-  .hero h1 {
-    max-width: 11ch;
-    font-size: clamp(2.45rem, 15vw, 4rem);
-  }
-
-  .hero-copy {
-    font-size: 0.98rem;
+  .page-header,
+  .asset-item,
+  .info-section {
+    padding: 16px;
   }
 }
