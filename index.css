@@ -280,6 +280,12 @@ body {
   }
 }
 
+@media (min-width: 841px) {
+  .asset-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / span 2;
+  }
+}
+
 @media (max-width: 560px) {
   .page-shell {
     width: min(100% - 20px, 1160px);

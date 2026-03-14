@@ -13,6 +13,7 @@ Static public asset hosting repo for small, separate HTML/CSS/JS artifacts.
 - `artifacts/tbc-hunter-rotation-guide/index.html`: TBC Hunter field guide
 - `artifacts/tbc-hunter-rotation-guide/styles.css`: styling for the TBC Hunter guide
 - `artifacts/tbc-hunter-rotation-guide/main.js`: calculator and guide behavior
+- `artifacts/warlock_demo_early_agent_convo/warlock_demo_early_agent_convo.md`: preserved markdown transcript artifact
 - `.github/workflows/deploy.yml`: GitHub Pages deployment via Actions
 
 ## Publish
@@ -37,7 +38,8 @@ git push -u origin main
 ## Notes
 
 - Each artifact should stay self-contained under `artifacts/<slug>/`.
-- Prefer local `index.html`, `styles.css`, and `main.js` inside each artifact folder.
+- Prefer local `index.html`, `styles.css`, and `main.js` inside each artifact folder when the artifact is an interactive page.
+- Markdown-only artifacts are acceptable when the markdown file itself is the published deliverable.
 - The Devoker guide content is based on the default SimC Devastation Evoker APL, not Assisted Combat.
 - The current Devoker guide is tailored to the decoded build from this talent string:
 

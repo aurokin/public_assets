@@ -17,6 +17,7 @@ Co-Authored-By: Codex GPT-5 <codex@openai.com>
 - Preserve root static hosting compatibility
 - Prefer relative asset paths
 - Use per-artifact `index.html`, `styles.css`, and `main.js` inside each artifact folder
+- Markdown-only artifacts may keep a `.md` file instead of an HTML wrapper when the source format should remain markdown
 - Keep the root `index.html` and `index.css` limited to the repo catalog page
 - Treat `.github/workflows/*`, `.gitignore`, and `README.md` as repo-wide files
 
