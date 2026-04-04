@@ -99,8 +99,8 @@
   function SlopeChart({ flights }) {
     const [hovered, setHovered] = useState(null);
     const verifiable = flights.filter((f) => f.actual !== "N/A");
-    const W = 700, H = 400;
-    const PAD = { top: 30, right: 100, bottom: 30, left: 100 };
+    const W = 700, H = 500;
+    const PAD = { top: 36, right: 90, bottom: 24, left: 90 };
     const plotW = W - PAD.left - PAD.right;
     const plotH = H - PAD.top - PAD.bottom;
     const yScale = (i) => PAD.top + i / (verifiable.length - 1) * plotH;
@@ -120,7 +120,7 @@
       "text",
       {
         x: xScale(v),
-        y: PAD.top - 16,
+        y: PAD.top - 18,
         textAnchor: "middle",
         fill: "#5C5950",
         fontSize: 9
@@ -165,6 +165,16 @@
           opacity
         },
         /* @__PURE__ */ React.createElement(
+          "rect",
+          {
+            x: PAD.left - 80,
+            y: y - 11,
+            width: W - PAD.left + 80,
+            height: 22,
+            fill: "transparent"
+          }
+        ),
+        /* @__PURE__ */ React.createElement(
           "line",
           {
             x1: xScale(f.original),
@@ -172,7 +182,7 @@
             x2: xScale(f.bayesian),
             y2: y,
             stroke: color,
-            strokeWidth: isHover ? 2 : 1.5,
+            strokeWidth: isHover ? 2.5 : 1.5,
             strokeLinecap: "round"
           }
         ),
@@ -188,7 +198,7 @@
           {
             cx: xScale(f.original),
             cy: y,
-            r: isHover ? 4 : 3,
+            r: isHover ? 4.5 : 3,
             fill: color,
             stroke: "var(--bg)",
             strokeWidth: 1.5
@@ -199,7 +209,7 @@
           {
             cx: xScale(f.bayesian),
             cy: y,
-            r: isHover ? 4 : 3,
+            r: isHover ? 4.5 : 3,
             fill: color,
             stroke: "var(--bg)",
             strokeWidth: 1.5
@@ -224,10 +234,14 @@
             y: y + 4,
             textAnchor: "start",
             fill: color,
-            fontSize: 10,
+            fontSize: 9,
             fontWeight: 700
           },
-          arrived ? "Arrived" : "Cancelled"
+          arrived ? "OK" : "CXL",
+          " ",
+          Math.round(f.original * 100),
+          "\u2192",
+          Math.round(f.bayesian * 100)
         )
       );
     })));
@@ -247,19 +261,18 @@
       result: 0.87,
       original: 0.42
     };
-    const W = 700, H = 260;
+    const W = 700, H = 280;
     const barY = 40;
-    const barH = 24;
-    const barGap = 36;
-    const leftCol = 130;
-    const barStart = 170;
-    const barMax = 320;
-    const resultX = 560;
+    const barH = 26;
+    const barGap = 40;
+    const leftCol = 120;
+    const barStart = 160;
+    const barMax = 300;
+    const resultX = 540;
     return /* @__PURE__ */ React.createElement("div", { className: "pipeline-chart" }, /* @__PURE__ */ React.createElement("div", { className: "pipeline-chart-title" }, "How the model scores a flight \xB7 ENY 3693 (biggest correction: 42% \u2192 87%)"), /* @__PURE__ */ React.createElement("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, style: { display: "block", maxWidth: "100%" } }, demo.factors.map((f, i) => {
       const y = barY + i * barGap;
       const isHover = hoveredFactor === f.key;
       const barW = f.score * barMax;
-      const weightW = f.weight / 100 * barMax;
       const colors = {
         time: "var(--amber)",
         airline: "var(--blue)",
@@ -276,6 +289,16 @@
           onMouseLeave: () => setHoveredFactor(null),
           style: { cursor: "pointer" }
         },
+        /* @__PURE__ */ React.createElement(
+          "rect",
+          {
+            x: 0,
+            y: y - 4,
+            width: barStart + barMax + 60,
+            height: barH + 8,
+            fill: "transparent"
+          }
+        ),
         /* @__PURE__ */ React.createElement(
           "text",
           {
@@ -339,11 +362,11 @@
         isHover && /* @__PURE__ */ React.createElement(
           "text",
           {
-            x: barStart + barMax + 50,
+            x: barStart + 8,
             y: y + barH / 2 + 4,
-            fill: "var(--text-3)",
-            fontSize: 10,
-            fontStyle: "italic"
+            fill: "var(--text-1)",
+            fontSize: 9,
+            opacity: 0.7
           },
           f.reason
         ),
@@ -352,7 +375,7 @@
           {
             x1: barStart + barW,
             y1: y + barH / 2,
-            x2: resultX - 20,
+            x2: resultX - 36,
             y2: H / 2,
             stroke: color,
             strokeWidth: 0.5,
@@ -366,7 +389,7 @@
       {
         cx: resultX,
         cy: H / 2,
-        r: 36,
+        r: 38,
         fill: "none",
         stroke: "var(--amber)",
         strokeWidth: 2,
@@ -377,7 +400,7 @@
       {
         cx: resultX,
         cy: H / 2,
-        r: 36,
+        r: 38,
         fill: "var(--amber)",
         opacity: 0.06
       }
@@ -388,7 +411,7 @@
         y: H / 2 - 4,
         textAnchor: "middle",
         fill: "var(--amber)",
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 700
       },
       Math.round(demo.result * 100),
@@ -407,19 +430,19 @@
     ), /* @__PURE__ */ React.createElement(
       "text",
       {
-        x: resultX + 60,
-        y: H / 2 - 8,
-        textAnchor: "start",
+        x: resultX,
+        y: H / 2 + 52,
+        textAnchor: "middle",
         fill: "var(--text-3)",
-        fontSize: 10
+        fontSize: 9
       },
       "was"
     ), /* @__PURE__ */ React.createElement(
       "text",
       {
-        x: resultX + 60,
-        y: H / 2 + 8,
-        textAnchor: "start",
+        x: resultX,
+        y: H / 2 + 66,
+        textAnchor: "middle",
         fill: "var(--red)",
         fontSize: 14,
         fontWeight: 700
@@ -429,11 +452,11 @@
     ), /* @__PURE__ */ React.createElement(
       "text",
       {
-        x: resultX + 60,
-        y: H / 2 + 22,
-        textAnchor: "start",
+        x: resultX,
+        y: H / 2 + 78,
+        textAnchor: "middle",
         fill: "var(--text-3)",
-        fontSize: 9,
+        fontSize: 8,
         letterSpacing: "0.06em"
       },
       "ORIGINAL"
@@ -441,21 +464,23 @@
   }
   function BrierChart() {
     const [hovered, setHovered] = useState(null);
-    const W = 700, H = 140;
-    const barStart = 160, barMax = 400;
+    const W = 700, H = 160;
+    const barStart = 160, barMax = 360;
     const bars = [
-      { id: "random", label: "Random guessing", value: 0.25, color: "var(--text-3)" },
-      { id: "original", label: "Original model", value: 0.182, color: "var(--red)" },
-      { id: "bayesian", label: "Bayesian model", value: 0.082, color: "var(--green)" }
+      { id: "random", label: "Random guessing", value: 0.25, color: "var(--text-3)", note: "baseline" },
+      { id: "original", label: "Original model", value: 0.182, color: "var(--red)", note: "27% better than random" },
+      { id: "bayesian", label: "Bayesian model", value: 0.082, color: "var(--green)", note: "67% better than random" }
     ];
     const maxVal = 0.3;
+    const barH = 26;
+    const barGap = 40;
     return /* @__PURE__ */ React.createElement("div", { className: "brier-chart" }, /* @__PURE__ */ React.createElement("div", { className: "brier-chart-title" }, "Brier score comparison \xB7 lower is better \xB7 0.0 = perfect"), /* @__PURE__ */ React.createElement("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, style: { display: "block", maxWidth: "100%" } }, [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3].map((v) => /* @__PURE__ */ React.createElement("g", { key: v }, /* @__PURE__ */ React.createElement(
       "line",
       {
         x1: barStart + v / maxVal * barMax,
-        y1: 10,
+        y1: 12,
         x2: barStart + v / maxVal * barMax,
-        y2: H - 10,
+        y2: H - 6,
         stroke: "rgba(255,255,255,0.04)"
       }
     ), /* @__PURE__ */ React.createElement(
@@ -469,7 +494,7 @@
       },
       v.toFixed(2)
     ))), bars.map((bar, i) => {
-      const y = 26 + i * 38;
+      const y = 22 + i * barGap;
       const barW = bar.value / maxVal * barMax;
       const isHover = hovered === bar.id;
       return /* @__PURE__ */ React.createElement(
@@ -480,11 +505,12 @@
           onMouseLeave: () => setHovered(null),
           style: { cursor: "pointer" }
         },
+        /* @__PURE__ */ React.createElement("rect", { x: 0, y: y - 4, width: W, height: barH + 8, fill: "transparent" }),
         /* @__PURE__ */ React.createElement(
           "text",
           {
             x: barStart - 12,
-            y: y + 14,
+            y: y + barH / 2 + 4,
             textAnchor: "end",
             fill: isHover ? "var(--text-1)" : "var(--text-2)",
             fontSize: 11,
@@ -498,7 +524,7 @@
             x: barStart,
             y,
             width: barMax,
-            height: 22,
+            height: barH,
             rx: 4,
             fill: "rgba(255,255,255,0.03)"
           }
@@ -509,7 +535,7 @@
             x: barStart,
             y,
             width: barW,
-            height: 22,
+            height: barH,
             rx: 4,
             fill: bar.color,
             opacity: isHover ? 0.5 : 0.3
@@ -519,82 +545,60 @@
           "text",
           {
             x: barStart + barW + 10,
-            y: y + 15,
+            y: y + barH / 2 + 4,
             fill: bar.color,
             fontSize: 12,
             fontWeight: 700
           },
           bar.value.toFixed(3)
         ),
-        isHover && bar.id === "bayesian" && /* @__PURE__ */ React.createElement(
+        isHover && bar.note !== "baseline" && /* @__PURE__ */ React.createElement(
           "text",
           {
-            x: barStart + barW + 70,
-            y: y + 15,
+            x: barStart + barW + 65,
+            y: y + barH / 2 + 4,
             fill: "var(--text-3)",
-            fontSize: 10,
+            fontSize: 9,
             fontStyle: "italic"
           },
-          "67% better than random"
-        ),
-        isHover && bar.id === "original" && /* @__PURE__ */ React.createElement(
-          "text",
-          {
-            x: barStart + barW + 70,
-            y: y + 15,
-            fill: "var(--text-3)",
-            fontSize: 10,
-            fontStyle: "italic"
-          },
-          "27% better than random"
+          bar.note
         )
       );
     })));
   }
   function TierInversion() {
     const [hovered, setHovered] = useState(null);
-    const W = 700, H = 200;
+    const W = 700, H = 220;
     const tiers = [
       { id: "best", label: '"Best Bets"', predicted: "72\u201368%", cancelRate: 0.4, color: "var(--red)", note: "2 of 5 cancelled" },
       { id: "likely", label: '"Likely Safe"', predicted: "64\u201352%", cancelRate: 0.25, color: "var(--amber)", note: "2 of 8 cancelled" },
       { id: "uncertain", label: '"Uncertain"', predicted: "52\u201342%", cancelRate: 0.17, color: "var(--amber-dim)", note: "1 of 6 cancelled" },
-      { id: "risky", label: '"Risky"', predicted: "35\u201320%", cancelRate: 0, color: "var(--green)", note: "0 of 5 cancelled" }
+      { id: "risky", label: '"Risky"', predicted: "35\u201320%", cancelRate: 0, color: "var(--green)", note: "0 cancelled" }
     ];
-    const barStart = 170, barMax = 340;
-    const barH = 28, barGap = 40;
+    const barStart = 160, barMax = 340;
+    const barH = 30, barGap = 44;
     return /* @__PURE__ */ React.createElement("div", { className: "tier-chart" }, /* @__PURE__ */ React.createElement("div", { className: "tier-chart-title" }, "Original tier rankings vs. actual cancellation rates \xB7 the inversion"), /* @__PURE__ */ React.createElement("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, style: { display: "block", maxWidth: "100%" } }, [0, 0.1, 0.2, 0.3, 0.4, 0.5].map((v) => /* @__PURE__ */ React.createElement("g", { key: v }, /* @__PURE__ */ React.createElement(
       "line",
       {
         x1: barStart + v / 0.5 * barMax,
-        y1: 5,
+        y1: 8,
         x2: barStart + v / 0.5 * barMax,
-        y2: H - 5,
+        y2: H - 16,
         stroke: "rgba(255,255,255,0.04)"
       }
     ), /* @__PURE__ */ React.createElement(
       "text",
       {
         x: barStart + v / 0.5 * barMax,
-        y: H - 2,
+        y: H - 4,
         textAnchor: "middle",
         fill: "#5C5950",
         fontSize: 9
       },
       Math.round(v * 100),
       "%"
-    ))), /* @__PURE__ */ React.createElement(
-      "text",
-      {
-        x: barStart + barMax / 2,
-        y: H + 2,
-        textAnchor: "middle",
-        fill: "#5C5950",
-        fontSize: 8,
-        letterSpacing: "0.08em"
-      },
-      "ACTUAL CANCELLATION RATE"
-    ), tiers.map((t, i) => {
-      const y = 12 + i * barGap;
+    ))), tiers.map((t, i) => {
+      const y = 14 + i * barGap;
       const barW = Math.max(4, t.cancelRate / 0.5 * barMax);
       const isHover = hovered === t.id;
       return /* @__PURE__ */ React.createElement(
@@ -605,11 +609,12 @@
           onMouseLeave: () => setHovered(null),
           style: { cursor: "pointer" }
         },
+        /* @__PURE__ */ React.createElement("rect", { x: 0, y: y - 4, width: W, height: barH + 8, fill: "transparent" }),
         /* @__PURE__ */ React.createElement(
           "text",
           {
-            x: barStart - 12,
-            y: y + barH / 2 + 4,
+            x: barStart - 14,
+            y: y + barH / 2 - 2,
             textAnchor: "end",
             fill: isHover ? "var(--text-1)" : "var(--text-2)",
             fontSize: 11,
@@ -620,13 +625,13 @@
         /* @__PURE__ */ React.createElement(
           "text",
           {
-            x: 8,
-            y: y + barH / 2 + 4,
-            textAnchor: "start",
+            x: barStart - 14,
+            y: y + barH / 2 + 10,
+            textAnchor: "end",
             fill: "var(--text-3)",
-            fontSize: 9
+            fontSize: 8
           },
-          "predicted ",
+          "est. ",
           t.predicted
         ),
         /* @__PURE__ */ React.createElement(
@@ -678,10 +683,10 @@
         isHover && /* @__PURE__ */ React.createElement(
           "text",
           {
-            x: barStart + barMax + 12,
+            x: t.cancelRate > 0 ? barStart + barW + 50 : barStart + 38,
             y: y + barH / 2 + 4,
             fill: "var(--text-3)",
-            fontSize: 10,
+            fontSize: 9,
             fontStyle: "italic"
           },
           t.note
@@ -691,8 +696,8 @@
   }
   function EvolutionGraph() {
     const [hovered, setHovered] = useState(null);
-    const W = 700, H = 320;
-    const PAD = { top: 30, right: 90, bottom: 50, left: 50 };
+    const W = 740, H = 320;
+    const PAD = { top: 30, right: 130, bottom: 50, left: 50 };
     const plotW = W - PAD.left - PAD.right;
     const plotH = H - PAD.top - PAD.bottom;
     const xStep = plotW / 3;
