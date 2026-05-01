@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloudflare Blog — Right-Edge Progress Bar Prototype</title>
+<meta name="description" content="Design prototype showing a Cloudflare blog article with the reading-progress indicator moved from the top of the page to a full-height bar pinned to the right edge of the viewport.">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="utility-bar">
+    <div class="utility-bar-inner">
+      <a href="#" class="cta">Get Started Free</a>
+      <a href="#">Contact Sales</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="#" class="brand">
+        <span class="brand-logo">CF</span>
+        <span class="brand-title">The Cloudflare Blog</span>
+      </a>
+      <div class="subscribe">
+        <span class="subscribe-label">Subscribe to receive notifications of new posts:</span>
+        <form class="subscribe-form" onsubmit="event.preventDefault();">
+          <input class="subscribe-input" type="email" placeholder="Email Address" />
+          <button class="subscribe-button" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tag-nav">
+    <div class="tag-nav-inner">
+      <a href="#">AI</a>
+      <a href="#">Developers</a>
+      <a href="#">Radar</a>
+      <a href="#">Product News</a>
+      <a href="#">Security</a>
+      <a href="#">Policy &amp; Legal</a>
+      <a href="#">Zero Trust</a>
+      <a href="#">Speed &amp; Reliability</a>
+      <a href="#">Life at Cloudflare</a>
+      <a href="#">Partners</a>
+    </div>
+  </nav>
+
+  <main id="article">
+    <article>
+      <div class="article-date">2026-04-16</div>
+      <h1 class="article-title">Cloudflare's AI Platform: an inference layer designed for agents</h1>
+
+      <ul class="article-authors">
+        <li>
+          <span class="author-avatar"><img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/15tKckibXhwPEckLeCWGle/a0bc2f5d0219244489150cc090c04357/0b44a65c-00b0-4550-8cbd-724f7960252a_800x800.png" alt="Ming Lu" onerror="this.replaceWith(document.createTextNode('ML'))" /></span>
+          <span class="author-name">Ming Lu</span>
+        </li>
+        <li>
+          <span class="author-avatar"><img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1hrcl3aVtUbBuCMeuXETWy/93dbfbc7d41c09ba35d863312dbde89d/michelle.jpg" alt="Michelle Chen" onerror="this.replaceWith(document.createTextNode('MC'))" /></span>
+          <span class="author-name">Michelle Chen</span>
+        </li>
+      </ul>
+
+      <div class="article-meta">
+        <span>5 min read</span>
+      </div>
+      <div class="article-translations">
+        This post is also available in <a href="#">日本語</a> and <a href="#">한국어</a>.
+      </div>
+
+      <img class="hero-image"
+           src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/PVjfiCXOYd00evo2s1kiQ/f79f1e2e122e16b77e3df43a3970ed72/OG_Share_2024-2025-2026__2_.png"
+           alt="Cloudflare AI Platform" />
+
+      <p>The pace of progress in AI means the model that wins on a benchmark this quarter may be eclipsed by a smaller, faster, cheaper alternative the next. Builders need to be able to swap models without rewriting their stack.</p>
+
+      <p>That's why we're rethinking inference around a single, model‑agnostic surface. One endpoint. One billing relationship. One observability stack. The infrastructure should fade into the background so teams can focus on what their product actually does.</p>
+
+      <p>This matters most for <a href="#">agents</a>, where every additional hop, retry, and provider migration compounds into latency, cost, and operational risk. <a href="#">Inference</a> for an agent isn't a single call — it's a graph of them.</p>
+
+      <p>Since launching AI Gateway and Workers AI, we've seen developers reach for these primitives whenever they want speed at the edge, predictable pricing, and a layer that absorbs the messiness of running models in production.</p>
+
+      <h2 id="one-catalog-one-unified-endpoint">One catalog, one unified endpoint <a class="anchor" href="#one-catalog-one-unified-endpoint">#</a></h2>
+
+      <p>Starting today, you can call third‑party models using the same <code>AI.run()</code> binding you already use for Workers AI. Pick a provider, pick a model, ship.</p>
+
+      <div class="code-block">
+        <div class="filename">worker.js</div>
+<pre><span class="tok-kw">const</span> response = <span class="tok-kw">await</span> env.AI.<span class="tok-fn">run</span>(
+  <span class="tok-str">'anthropic/claude-opus-4-7'</span>,
+  { input: <span class="tok-str">'What is Cloudflare?'</span> },
+  { gateway: { id: <span class="tok-str">"default"</span> } }
+);</pre>
+      </div>
+
+      <p>For teams that aren't on Workers, REST API support is on the way. The same call shape, the same routing, just over HTTP.</p>
+
+      <p>You'll have access to 70+ models across 12+ providers — open‑source models hosted on Workers AI, hosted endpoints from major labs, and specialty providers for vision, audio, and video.</p>
+
+      <p>Browse the <a href="#">model catalog</a> to find the best fit for your use case, including offerings from Alibaba Cloud, AssemblyAI, Bytedance, Google, InWorld, MiniMax, OpenAI, Pixverse, Recraft, Runway, and more.</p>
+
+      <img class="article-image"
+           src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6X6ztVtj3iJSS3DYOfoLJE/80fe31ee69c066db012e7790e6b240a2/BLOG-3209_1.png"
+           alt="Unified inference architecture diagram"
+           onerror="this.style.background='linear-gradient(135deg,#F6821F,#FAAD3F)';this.removeAttribute('src');" />
+
+      <p>Routing through one API also means consolidating spend. Most teams we talk to are juggling around three and a half models on average; AI Gateway gives you one place to monitor and manage every dollar.</p>
+
+      <div class="callout">
+        With AI Gateway, you'll get one centralized place to monitor and manage AI spend — across providers, teams, and environments.
+      </div>
+
+      <p>Tag requests with custom metadata to break down spend by team, user, feature, or environment. The same metadata flows through to logs and analytics.</p>
+
+      <div class="code-block">
+        <div class="filename">worker.js</div>
+<pre><span class="tok-kw">const</span> response = <span class="tok-kw">await</span> env.AI.<span class="tok-fn">run</span>(
+  <span class="tok-str">'@cf/moonshotai/kimi-k2.5'</span>,
+  { prompt: <span class="tok-str">'What is AI Gateway?'</span> },
+  {
+    metadata: {
+      teamId: <span class="tok-str">"AI"</span>,
+      userId: <span class="tok-num">12345</span>
+    }
+  }
+);</pre>
+      </div>
+
+      <h2 id="bring-your-own-model">Bring your own model <a class="anchor" href="#bring-your-own-model">#</a></h2>
+
+      <p>Sometimes the right model is the one you trained yourself. AI Gateway connects you to public providers; Workers AI lets you run private weights on the same global network.</p>
+
+      <p>The majority of our inference traffic now runs on dedicated capacity for Enterprise customers who bring their own models. To make that easier, we're standardizing on <a href="#">Cog</a> as the packaging format.</p>
+
+      <p>Cog is intentionally minimal: declare your dependencies in <code>cog.yaml</code>, write a <code>predict.py</code> with a setup and predict function, and you have a portable container that runs anywhere Cog runs.</p>
+
+      <div class="code-block">
+        <div class="filename">cog.yaml</div>
+<pre>build:
+  python_version: <span class="tok-str">"3.13"</span>
+  python_requirements: requirements.txt
+predict: <span class="tok-str">"predict.py:Predictor"</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="filename">predict.py</div>
+<pre><span class="tok-kw">from</span> cog <span class="tok-kw">import</span> BasePredictor, Path, Input
+<span class="tok-kw">import</span> torch
+
+<span class="tok-kw">class</span> <span class="tok-cls">Predictor</span>(BasePredictor):
+    <span class="tok-kw">def</span> <span class="tok-fn">setup</span>(self):
+        <span class="tok-cm">"""Load the model into memory."""</span>
+        self.net = torch.load(<span class="tok-str">"weights.pth"</span>)
+
+    <span class="tok-kw">def</span> <span class="tok-fn">predict</span>(
+        self,
+        image: Path = Input(description=<span class="tok-str">"Image to enlarge"</span>),
+        scale: <span class="tok-cls">float</span> = Input(description=<span class="tok-str">"Scale factor"</span>, default=<span class="tok-num">1.5</span>),
+    ):
+        <span class="tok-cm"># pre-processing</span>
+        output = self.net(image)
+        <span class="tok-cm"># post-processing</span>
+        <span class="tok-kw">return</span> output</pre>
+      </div>
+
+      <p>Run <code>cog build</code> to produce a container image, push it to Workers AI, and your model is reachable from any Worker — with the same routing, observability, and failover semantics as the rest of the catalog.</p>
+
+      <p>We're rolling this out to more customers over the coming months, including customer‑facing endpoints with throughput guarantees and per‑tenant isolation.</p>
+
+      <h2 id="the-fast-path-to-first-token">The fast path to first token <a class="anchor" href="#the-fast-path-to-first-token">#</a></h2>
+
+      <p>For live agents, time‑to‑first‑token is the metric users actually feel. Anything that's not the model itself — TLS handshakes, region hops, queueing — is dead air the user sits through.</p>
+
+      <p>Cloudflare's network reaches into 330 cities, which puts AI Gateway physically close to almost every user. The first token is on its way before the request would have finished crossing a continent in a centralized architecture.</p>
+
+      <p>Workers AI's catalog now includes large open models tuned for agent workloads, including <a href="#">Kimi K2.5</a>, with more on the way.</p>
+
+      <h2 id="built-for-reliability-with-automatic-failover">Built for reliability with automatic failover <a class="anchor" href="#built-for-reliability-with-automatic-failover">#</a></h2>
+
+      <p>Speed is half the story. The other half is what happens when a provider has a bad ten minutes. Agents don't get to pause — they have to keep moving.</p>
+
+      <p>If you're calling a model that's available from multiple providers and one provider degrades, AI Gateway automatically retries against the next. No client‑side logic, no incident page to wait on.</p>
+
+      <p>If you're building <a href="#">long‑running agents with the Agents SDK</a>, your streaming inference calls are resilient to disconnects too. Gateway buffers and replays, so an agent doesn't lose its train of thought when the network blinks.</p>
+
+      <h2 id="replicate">Replicate <a class="anchor" href="#replicate">#</a></h2>
+
+      <p>The Replicate team has officially <a href="#">joined</a> our AI Platform team. They've spent years building the easiest way to run any model on any hardware — exactly the problem we're tackling at the network layer.</p>
+
+      <h2 id="get-started">Get started <a class="anchor" href="#get-started">#</a></h2>
+
+      <p>Documentation for <a href="#">AI Gateway</a>, <a href="#">Workers AI</a>, and the <a href="#">Agents SDK</a> is the right place to start. Drop your first <code>AI.run()</code> call into a Worker and you'll have a functioning, observable, multi‑provider inference path in a few minutes.</p>
+
+      <h2 id="watch-on-cloudflare-tv">Watch on Cloudflare TV <a class="anchor" href="#watch-on-cloudflare-tv">#</a></h2>
+
+      <p>Join us live on Cloudflare TV for a walkthrough of the platform, a look at the new model catalog, and a Q&amp;A with the team behind the launch.</p>
+
+      <div class="article-footer">
+        <p>Cloudflare's connectivity cloud protects entire corporate networks, helps customers build Internet‑scale applications efficiently, accelerates any website or Internet application, wards off DDoS attacks, keeps hackers at bay, and can help you on your journey to Zero Trust.</p>
+        <div class="tag-pills">
+          <span class="tag-pill">Agents Week</span>
+          <span class="tag-pill">Agents</span>
+          <span class="tag-pill">AI</span>
+          <span class="tag-pill">AI Gateway</span>
+          <span class="tag-pill">Workers AI</span>
+          <span class="tag-pill">Developers</span>
+          <span class="tag-pill">Developer Platform</span>
+          <span class="tag-pill">LLM</span>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <section class="related">
+    <div class="related-inner">
+      <h3>Related posts</h3>
+      <div class="related-grid">
+        <article class="related-card">
+          <div class="date">May 01, 2026</div>
+          <h4>Introducing Dynamic Workflows: durable execution that follows the tenant</h4>
+          <p>A library that lets you route durable execution to tenant‑provided code on the same network where the workflow runs.</p>
+          <div class="author">Dan Lapid · Luís Duarte</div>
+        </article>
+        <article class="related-card">
+          <div class="date">April 30, 2026</div>
+          <h4>Agents can now create Cloudflare accounts, buy domains, and deploy</h4>
+          <p>Starting today, agents can be Cloudflare customers — sign up, register a domain, deploy a Worker, all autonomously.</p>
+          <div class="author">Sid Chatterjee · Brendan Irvine‑Broque</div>
+        </article>
+        <article class="related-card">
+          <div class="date">April 22, 2026</div>
+          <h4>Making Rust Workers reliable: panic and abort recovery in wasm‑bindgen</h4>
+          <p>Panics in Rust Workers were historically fatal. Upstream fixes turn them into recoverable errors instead.</p>
+          <div class="author">Guy Bedford · Hood Chatham · Logan Gatlin</div>
+        </article>
+        <article class="related-card">
+          <div class="date">April 21, 2026</div>
+          <h4>Moving past bots vs. humans</h4>
+          <p>As AI assistants and privacy proxies blur the line, classic bot detection no longer captures user intent.</p>
+          <div class="author">Thibault Meunier</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        <h5>Getting Started</h5>
+        <ul>
+          <li><a href="#">Free plans</a></li>
+          <li><a href="#">For enterprises</a></li>
+          <li><a href="#">Compare plans</a></li>
+          <li><a href="#">Get a recommendation</a></li>
+          <li><a href="#">Request a demo</a></li>
+          <li><a href="#">Contact Sales</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Learning Center</a></li>
+          <li><a href="#">Analyst reports</a></li>
+          <li><a href="#">Cloudflare Radar</a></li>
+          <li><a href="#">Cloudflare TV</a></li>
+          <li><a href="#">Case Studies</a></li>
+          <li><a href="#">Webinars</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Solutions</h5>
+        <ul>
+          <li><a href="#">Connectivity cloud</a></li>
+          <li><a href="#">SSE and SASE services</a></li>
+          <li><a href="#">Application services</a></li>
+          <li><a href="#">Network services</a></li>
+          <li><a href="#">Developer services</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Community</h5>
+        <ul>
+          <li><a href="#">Community Hub</a></li>
+          <li><a href="#">Project Galileo</a></li>
+          <li><a href="#">Athenian Project</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About Cloudflare</a></li>
+          <li><a href="#">Our team</a></li>
+          <li><a href="#">Investor relations</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer-bottom">© 2026 Cloudflare, Inc. · Privacy Policy · Terms of Use</div>
+  </footer>
+
+<script src="./main.js"></script>
+</body>
+</html>
