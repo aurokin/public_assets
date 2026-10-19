@@ -18,7 +18,7 @@
   const text = new Map(cards.map(card => [card, normalize(card.textContent)]));
   function updateToggle() {
     const allOpen = notes.every(note => note.open);
-    toggle.textContent = allOpen ? 'Close full notes' : 'Open full notes';
+    toggle.textContent = allOpen ? 'Collapse comparisons' : 'Expand comparisons';
     toggle.setAttribute('aria-pressed', String(allOpen));
   }
   function filter() {
@@ -38,7 +38,7 @@
       if (sectionCount) dungeonCount++;
     }
     const selected = select.selectedOptions[0].textContent;
-    status.textContent = `Showing ${count} of ${cards.length} decisions ${select.value === 'all' ? `in ${dungeonCount} ${dungeonCount === 1 ? 'dungeon' : 'dungeons'}` : `in ${selected}`}${search.value.trim() ? ` matching “${search.value.trim()}”` : ''}.`;
+    status.textContent = `Showing ${count} of ${cards.length} decisions ${select.value === 'all' ? `in ${dungeonCount} ${dungeonCount === 1 ? 'dungeon' : 'dungeons'}` : `in ${selected}`}${search.value.trim() ? ` matching "${search.value.trim()}"` : ''}.`;
     empty.hidden = count !== 0;
     for (const link of jumpLinks) {
       if (link.hash.slice(1) === select.value) link.setAttribute('aria-current', 'location');
@@ -65,11 +65,12 @@
     }
     const card = target.closest('.decision');
     const focusHeading = card ? card.querySelector('h3') : section?.querySelector('h2');
+    const focusNode = focusHeading || (target.matches('details') ? target.querySelector('summary') : target);
     requestAnimationFrame(() => {
       target.scrollIntoView({ block: 'start', behavior: 'instant' });
-      if (focusTarget && focusHeading) {
-        focusHeading.setAttribute('tabindex', '-1');
-        focusHeading.focus({ preventScroll: true });
+      if (focusTarget && focusNode) {
+        if (!focusNode.matches('summary, a, button, input, select')) focusNode.setAttribute('tabindex', '-1');
+        focusNode.focus({ preventScroll: true });
       }
     });
   }
