@@ -118,3 +118,133 @@
   form.hidden = false;
   revealHash(location.hash);
 })();
+
+/* Local, keyboard- and touch-accessible entity cards. No remote widget. */
+(() => {
+  'use strict';
+  const buttons = [...document.querySelectorAll('.entity-chip[popovertarget]')];
+  if (!buttons.length) return;
+  const nativePopover = typeof HTMLElement.prototype.showPopover === 'function';
+  let active = null;
+  let restoringFocus = false;
+  let closeTimer;
+  let frame;
+
+  function cancelClose() { clearTimeout(closeTimer); }
+  function position() {
+    if (!active) return;
+    const { button, panel } = active;
+    if (!button.isConnected || button.closest('[hidden]')) { close(); return; }
+    const rect = button.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > innerHeight) { close(); return; }
+    const box = panel.getBoundingClientRect();
+    const gap = 9;
+    const left = Math.max(gap, Math.min(rect.left, innerWidth - box.width - gap));
+    const below = rect.bottom + gap;
+    const above = rect.top - box.height - gap;
+    const preferred = below + box.height <= innerHeight - gap || above < gap ? below : above;
+    const top = Math.max(gap, Math.min(preferred, innerHeight - box.height - gap));
+    panel.style.left = `${left}px`;
+    panel.style.top = `${top}px`;
+  }
+  function close(restoreFocus = false) {
+    cancelClose();
+    if (!active) return;
+    const { button, panel } = active;
+    active = null;
+    button.setAttribute('aria-expanded', 'false');
+    panel.classList.remove('is-fallback-open');
+    // hidePopover itself can synchronously restore invoker focus. Guard the
+    // native hide as well as our explicit focus, or focusin reopens the card.
+    restoringFocus = true;
+    try {
+      if (nativePopover && panel.matches(':popover-open')) panel.hidePopover();
+      if (restoreFocus && button.isConnected && !button.closest('[hidden]')) button.focus({ preventScroll: true });
+    } finally {
+      restoringFocus = false;
+    }
+  }
+  function open(button, pinned = false) {
+    cancelClose();
+    const panel = document.getElementById(button.getAttribute('popovertarget'));
+    if (!panel) return;
+    if (active && active.button !== button) close();
+    active = { button, panel, pinned: pinned || Boolean(active?.pinned) };
+    button.setAttribute('aria-expanded', 'true');
+    if (nativePopover) {
+      if (!panel.matches(':popover-open')) panel.showPopover({ source: button });
+    } else {
+      panel.classList.add('is-fallback-open');
+    }
+    position();
+  }
+  function maybeClose() {
+    cancelClose();
+    closeTimer = setTimeout(() => {
+      if (!active || active.pinned || active.panel.contains(document.activeElement) || active.button.contains(document.activeElement)) return;
+      close();
+    }, 180);
+  }
+
+  document.addEventListener('pointerover', event => {
+    if (event.pointerType !== 'mouse') return;
+    const button = event.target.closest('.entity-chip');
+    if (button) {
+      if (!active?.pinned || active.button === button) open(button);
+    } else if (active?.panel.contains(event.target)) cancelClose();
+  });
+  document.addEventListener('pointerout', event => {
+    if (!active || event.pointerType !== 'mouse') return;
+    const next = event.relatedTarget;
+    if (active.button.contains(next) || active.panel.contains(next)) return;
+    if (active.button.contains(event.target) || active.panel.contains(event.target)) maybeClose();
+  });
+  document.addEventListener('focusin', event => {
+    if (restoringFocus) return;
+    const button = event.target.closest('.entity-chip');
+    if (button) open(button);
+    else if (active?.panel.contains(event.target)) cancelClose();
+    else close();
+  });
+  document.addEventListener('click', event => {
+    const button = event.target.closest('.entity-chip');
+    if (button) {
+      // A click pins an already-hovered card; its Wowhead link is inside.
+      event.preventDefault();
+      if (active?.button === button && active.pinned) close();
+      else {
+        open(button, true);
+        if (event.detail === 0) active?.panel.querySelector('a')?.focus({ preventScroll: true });
+      }
+      return;
+    }
+    if (event.target.closest('.entity-close')) {
+      event.preventDefault();
+      close(true);
+    } else if (active && !active.panel.contains(event.target)) close();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && active) {
+      event.preventDefault();
+      close(true);
+    }
+  });
+  for (const panel of document.querySelectorAll('.entity-popover')) {
+    panel.addEventListener('toggle', event => {
+      if (event.newState === 'closed' && active?.panel === panel) {
+        active.button.setAttribute('aria-expanded', 'false');
+        active = null;
+      }
+    });
+  }
+  window.addEventListener('resize', position);
+  document.addEventListener('scroll', event => {
+    if (!active || active.panel.contains(event.target)) return;
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(position);
+  }, true);
+  document.querySelector('#guide-filters')?.addEventListener('input', () => close());
+  document.querySelector('#guide-filters')?.addEventListener('change', () => close());
+  window.addEventListener('beforeprint', () => close());
+  document.documentElement.dataset.entityCards = 'true';
+})();
