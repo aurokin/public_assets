@@ -128,6 +128,7 @@
   let active = null;
   let restoringFocus = false;
   let pointerActivation = false;
+  let hoverDismissed = false;
   let closeTimer;
   let frame;
 
@@ -153,6 +154,7 @@
     if (!active) return;
     const { button, panel } = active;
     active = null;
+    if (restoreFocus) hoverDismissed = true;
     button.setAttribute('aria-expanded', 'false');
     panel.classList.remove('is-fallback-open');
     // hidePopover itself can synchronously restore invoker focus. Guard the
@@ -191,8 +193,17 @@
     if (event.pointerType !== 'mouse') return;
     const button = event.target.closest('.entity-chip');
     if (button) {
+      // Removing a panel can uncover a chip under a stationary mouse.
+      // Only genuine pointer motion should resume hover after dismissal.
+      if (hoverDismissed) return;
       if (!active?.pinned || active.button === button) open(button);
     } else if (active?.panel.contains(event.target)) cancelClose();
+  });
+  document.addEventListener('pointermove', event => {
+    if (event.pointerType !== 'mouse' || !hoverDismissed) return;
+    hoverDismissed = false;
+    const button = event.target.closest('.entity-chip');
+    if (button && (!active?.pinned || active.button === button)) open(button);
   });
   document.addEventListener('pointerout', event => {
     if (!active || event.pointerType !== 'mouse') return;
