@@ -127,6 +127,7 @@
   const nativePopover = typeof HTMLElement.prototype.showPopover === 'function';
   let active = null;
   let restoringFocus = false;
+  let pointerActivation = false;
   let closeTimer;
   let frame;
 
@@ -199,14 +200,21 @@
     if (active.button.contains(next) || active.panel.contains(next)) return;
     if (active.button.contains(event.target) || active.panel.contains(event.target)) maybeClose();
   });
+  // Pointer-induced focus must not move a tall panel over the trigger before
+  // its compatibility click is dispatched. Keyboard focus still opens it.
+  document.addEventListener('pointerdown', () => { pointerActivation = true; }, true);
+  document.addEventListener('pointercancel', () => { pointerActivation = false; }, true);
   document.addEventListener('focusin', event => {
     if (restoringFocus) return;
     const button = event.target.closest('.entity-chip');
-    if (button) open(button);
+    if (button) {
+      if (!pointerActivation) open(button);
+    }
     else if (active?.panel.contains(event.target)) cancelClose();
     else close();
   });
   document.addEventListener('click', event => {
+    pointerActivation = false;
     const button = event.target.closest('.entity-chip');
     if (button) {
       // A click pins an already-hovered card; its Wowhead link is inside.
@@ -224,6 +232,7 @@
     } else if (active && !active.panel.contains(event.target)) close();
   });
   document.addEventListener('keydown', event => {
+    pointerActivation = false;
     if (event.key === 'Escape' && active) {
       event.preventDefault();
       close(true);
