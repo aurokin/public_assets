@@ -685,9 +685,12 @@ main { max-width: 62rem; margin: 0 auto; padding: 1.1rem 1rem 3rem; outline: non
       if (!sideOk(q, P.faction)) return null;
       if (m.s === 'class') return classOk(q, P.cls) ? 'class' : null;
       if (!classOk(q, P.cls)) return null;
-      if (m.s === 'leadin') return 'related';
-      if (m.bx && (m.s === 'after' || m.s === 'inside' || m.s === 'loose')) return 'related';
+      if (looselyRelated(m)) return 'related';
       return m.s;
+    }
+    /* Lead-in steps and optional extras: listed under "Loosely related", never as the dungeon's own quests. */
+    function looselyRelated(m) {
+      return m.s === 'leadin' || !!(m.bx && (m.s === 'after' || m.s === 'inside' || m.s === 'loose'));
     }
 
     function dungeonView(slug, P, wing) {
@@ -725,17 +728,29 @@ main { max-width: 62rem; margin: 0 auto; padding: 1.1rem 1rem 3rem; outline: non
       return out;
     }
 
-    /* How many different quests are linked to a dungeon at all: every side, class and phase, each counted once.
-       It is the size of the directory entry, not a claim about what this character can pick up. */
-    function questTotal(d) {
-      var seen = {}, n = 0;
+    /* The home card's headline: the quests a player of this faction and class can actually take for this
+       dungeon, each counted once. It reads the dungeon's own list (pick-ups, quests that start inside or
+       from an item, follow-ups, class, profession, raid and event quests) and nothing from chain support.
+       Left out, though still shown on the dungeon page: lead-in steps and loosely related extras,
+       unconfirmed entries, objectives with no known start, and scripted events nobody accepts.
+       Level, progress and wing never change it: it is a total, not what is ready right now.
+       A quest whose side is recorded as not known (f: null) is not promised to either faction here;
+       the dungeon page still lists it. A record with no side field at all keeps the usual open reading. */
+    function playerQuests(d, P) {
+      var seen = {}, out = [];
+      P = P || {};
       (d.quests || []).forEach(function (m) {
         if (!m || m.id == null || seen[m.id]) return;
+        var q = Q[m.id];
+        if (!q || !eligible(q, P)) return;
+        if (q.f === null && P.faction) return;
+        if (m.s === 'unconfirmed' || m.s === 'loose' || m.st === 'scripted' || looselyRelated(m)) return;
         seen[m.id] = 1;
-        n++;
+        out.push(Number(m.id));
       });
-      return n;
+      return out;
     }
+    function questTotal(d, P) { return playerQuests(d, P).length; }
 
     function rangeState(d, level) {
       if (!level) return 'none';
@@ -794,7 +809,7 @@ main { max-width: 62rem; margin: 0 auto; padding: 1.1rem 1rem 3rem; outline: non
       sideOk: sideOk, classOk: classOk, eligible: eligible, needLevel: needLevel,
       session: session, chain: chain, components: components, mustFinish: mustFinish, simplify: simplify,
       dungeonView: dungeonView, sectionFor: sectionFor,
-      summary: summary, questTotal: questTotal, rangeState: rangeState, waypoint: waypoint, pickups: pickups, search: search,
+      summary: summary, playerQuests: playerQuests, questTotal: questTotal, rangeState: rangeState, waypoint: waypoint, pickups: pickups, search: search,
       srcUrl: srcUrl, wingToken: wingToken, inWing: inWing
     };
   }
@@ -1346,9 +1361,10 @@ main { max-width: 62rem; margin: 0 auto; padding: 1.1rem 1rem 3rem; outline: non
       var rows = core.dungeons.slice().sort(function (a, b) { return a.min - b.min || a.max - b.max; });
       var inRange = rows.filter(function (d) { return core.rangeState(d, lvl) === 'in'; });
       var shown = state.homeFilter === 'range' && lvl ? inRange : rows;
+      var who = { faction: state.faction, cls: state.cls };
       var head = '<section class="hero"><h1>Which dungeon tonight?</h1>';
       if (!lvl) {
-        head += '<p>Set your faction, level and class above. The ladder then marks the dungeons in your range. Each one shows how many quests it has in total; open it to see which are yours.</p>';
+        head += '<p>Set your faction, level and class above. The ladder then marks the dungeons in your range. Each one shows how many quests it has for your faction and class; open it for the details.</p>';
       } else if (inRange.length) {
         head += '<p>At level ' + lvl + ' you are in the recommended range for <b>' + esc(listText(inRange.map(function (d) { return d.name; }))) + '</b>.</p>';
       } else {
@@ -1363,7 +1379,7 @@ main { max-width: 62rem; margin: 0 auto; padding: 1.1rem 1rem 3rem; outline: non
         var tag = rs === 'in' ? '<span class="chip ok">In range</span>'
           : rs === 'low' ? '<span class="chip">' + plural(d.min - lvl, 'level') + ' to go</span>'
           : rs === 'high' ? '<span class="chip dimchip">Outlevelled</span>' : '';
-        var qline = plural(core.questTotal(d), 'quest') + ' total';
+        var qline = plural(core.questTotal(d, who), 'quest') + ' total';
         var wings = d.wings ? '<span class="d-wings">' + d.wings.map(function (w) { return esc(w.name) + ' ' + w.min + '–' + w.max; }).join(' · ') + '</span>' : '';
         return '<li class="d r-' + rs + '"><a href="#/d/' + d.slug + '" data-fk="d-' + d.slug + '">' +
           '<span class="d-lv">' + d.min + '–' + d.max + '</span>' +
